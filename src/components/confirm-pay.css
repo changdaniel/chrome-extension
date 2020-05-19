@@ -1,0 +1,29 @@
+.confirm-span p {
+    color: white;
+    /* display: inline-block; */
+    margin-left: 10px;
+}
+
+.confirm-span button {
+    /* background-color: #f6395d;
+    color: white; */
+    /* display: inline-block; */
+    margin-left: 10px;
+    
+}
+
+.confirm-span {
+    min-height: 40px;
+
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+  
+    /* border-top: 1px solid;
+    border-color: rgb(255,255,255,.25); */
+    margin: auto;
+    
+    width:100%;
+    position: absolute;
+    bottom: 0;
+}
