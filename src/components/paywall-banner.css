@@ -1,0 +1,27 @@
+@import url(https://fonts.google.com/specimen/Poppins);
+
+*{
+  font-family: 'Poppins', sans-serif;
+}
+
+.buy-button{
+  border: 0;
+  margin:0;
+  padding: 7px 20px;
+  cursor: pointer;
+  background: #f82249;
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+  border-radius: 50px;
+  position: relative;
+  display:inline-block;
+}
+
+.buy-button:hover {
+  background: #e0072f;
+}
+
+.row{
+  text-align:center;
+}
