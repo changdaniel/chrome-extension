@@ -19,13 +19,9 @@ position: relative;;
     position: relative;
     display: block;
     text-align: center;
-    font-size: 10px;
-    color: #fff;
+    font-size: 20px;
+    color: #111c34;
     font-weight: 400;
-}
-
-#rangeValue:before {
-    content: "$"
 }
 
 .range {
@@ -54,14 +50,14 @@ position: relative;;
     border: 0;
     margin-top: 10px;
     padding: 9px 27px;
-    margin-left: 50px;
+    /* margin-left: 50px; */
     cursor: pointer;
     background: #f82249;
     color: #fff;
     transition: all 0.3s ease;
     outline: none;
     font-size: 10px;
-    border-radius: 20px;
+    border-radius: 16px;
   }
   
   #donate button:hover {

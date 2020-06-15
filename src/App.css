@@ -9,8 +9,8 @@
 
   background-color: white;
 
-  min-width:427px;
-  min-height:117px;
+  width:427px;
+  height:117px;
 
   display: flex;
   align-items: center;
@@ -30,8 +30,8 @@
   padding-top: 40px;
 
   background-color: white;
-  min-width:427px;  
-  min-height:263px;
+  width:427px;  
+  height:263px;
   /* vertical-align: middle; */
   /* text-align: center; */
   position: relative;
@@ -42,8 +42,8 @@
   border-top: 6px solid #af3d55;
   background-color: #f6395d;
 
-  min-width:427px;  
-  min-height:58px;
+  width:427px;  
+  height:58px;
 
   display: flex;
   align-items: center;

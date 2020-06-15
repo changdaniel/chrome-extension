@@ -4,7 +4,7 @@ import { PayPalButton } from "react-paypal-button-v2";
 
 function PayPal(){
     return(
-    <div style = {{width:"30px"}}>
+    <div style = {{width:"30px", marginLeft:"75px", marginRight:"20px", marginTop:"40px"}}>
     <PayPalButton
       amount="0.01"
       style = {{    
@@ -13,7 +13,7 @@ function PayPal(){
         layout:"horizontal", 
         color:'gold', 
         label:'paypal'}}
-      // options = {{disableFunding: ['credit'], clientId:'AdEJ1br2W4BUH6JUMIkW5H_IFSznHMXzZ2j4xSDckAZy8hGkZNqBDWw-ZxsBBDlNjZfZL905wQk_Y6fv'}}
+      options = {{disableFunding: ['credit'], clientId:'AdEJ1br2W4BUH6JUMIkW5H_IFSznHMXzZ2j4xSDckAZy8hGkZNqBDWw-ZxsBBDlNjZfZL905wQk_Y6fv'}}
       shippingPreference="NO_SHIPPING"
       onSuccess={(details, data) => {
         alert("Transaction completed by " + details.payer.name.given_name);

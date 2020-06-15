@@ -12,23 +12,27 @@ function DonationBanner(props) {
         setValue(event.target.value)
     }
 
+    const onClick = (event) => {
+        props.setBalance(props.balance - event.target.value)
+        props.setPaid(true)
+    }
+
     return(
         
         <section id="donate">
-            <p>Donate to </p>
             <div>
-                <span id="rangeValue">{value}</span>
+                <span id="rangeValue">{(value/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</span>
                 <input 
                 class="range"
                 type="range" 
                 name="" 
                 value={value} 
                 min="0" 
-                max="10" 
+                max="1000" 
                 onChange={rangeSlide}
                 /> 
                 <div>
-                    <button>Donate</button>
+                    <button value={value} onClick={onClick}>Donate</button>
                 </div>
             </div>
 
