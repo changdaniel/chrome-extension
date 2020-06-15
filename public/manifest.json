@@ -7,15 +7,15 @@
 
   "browser_action": {
     "default_popup": "index.html",
-    "default_title": "Open the popup"
+    "default_title": "Open the pop"
   },
   "icons": {
     "16": "icon.png",
     "48": "icon.png",
     "128": "icon.png"
   },
-  "content_security_policy": "script-src 'self' 'sha256-SZQ5okiY4L6twQG3rncvT4VF0hTeD4cQogJ0jD3YnU8'; object-src 'self'",  
+  "content_security_policy": "script-src 'self' https://www.paypal.com 'sha256-XO8a3VLCcLhZnllQZgHKyrG3nkR+E4otizACoHJ7aEA'; object-src https://www.paypal.com 'self' 'sha256-XO8a3VLCcLhZnllQZgHKyrG3nkR+E4otizACoHJ7aEA';",  
   "permissions": [
-
+    "tabs", "activeTab", "http://*/", "https://*/"
   ]
 }

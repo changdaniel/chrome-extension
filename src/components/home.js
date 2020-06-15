@@ -2,19 +2,19 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './home.css'
 
-function Home() {
+function Home(props) {
 
     return(
 
-        <div className = "home-container">
+        <div>
             <h3 className = "home-text">
-                Hi [first name]
+                Hi, Daniel
             </h3>
             <h3 className = "home-text">
                 Your account balance:
             </h3>
             <h2 className = "home-text">
-                <strong>$1.00</strong>
+                <strong>{(props.balance/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</strong>
             </h2>
         </div>
     )
