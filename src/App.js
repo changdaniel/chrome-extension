@@ -66,9 +66,9 @@ const App = () => {
 
   if (paid == true)
   {
-    body = (<div><Home balance={balance}/><h2>Thank you!</h2></div>)
+    body = (<div><Home balance={balance}/><h2 style ={{color:"white"}}>Thank you!</h2></div>)
   }
-  else if(url == "http://134.122.23.179/news")
+  else if(url == "https://joincobble.com/")
   {
     body = (<div><Home balance={balance}/><PaywallBanner balance={balance} setBalance={writeAndSetBalance} setPaid={setPaid} currentUrl={url}/></div>)
     
