@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import Router, { Link, goBack, goTo } from 'route-lite';
-import logo from './logo.png';
 // const { Header, Content, Footer } = Layout;
 import Signup from './components/signup';
 import Login from './components/login';
-//import Home from './components/home'; 
+import Home from './components/home'; 
 
 
 
@@ -39,7 +38,7 @@ const App = () => {
   return(
     <Router>
       {authenticated 
-        ? <p>test</p>
+        ? <Home/>
         : <Login loginRequest = {loginRequest}/>
         }
     </Router>
