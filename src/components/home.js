@@ -11,14 +11,37 @@ import StripeButton from './home-components/stripe-button.svg';
 import HomeText from './home-components/home-text'
 import Wrapper from './wrapper'
 
-function createWindow(callback) {
+// function createWindow(callback) {
    
-    chrome.windows.create({
-         url: 'http://localhost:5000/make-deposit',
-         type: 'popup'}, callback)
+//     chrome.windows.create({
+//          url: 'http://localhost:5000/make-deposit',
+//          type: 'popup'}, callback)
  
- }
-  
+//  }
+
+const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFhZGRhMTIxMjEyQGEuY29tIiwiZXhwIjoxNTk1ODM4MjAmgt2cJYfxYqGDfp_S9fVWs97sSSAksMuhzDhU2Rk'
+
+function openPageAndWriteToken(pageContent, token) {
+  var x = window.open();
+  x.document.open("_blank");
+  x.document.write(pageContent);
+  x.document.getElementById('user_token').setAttribute('value', token)
+  x.document.close();
+}
+ 
+function createWindow(token) {
+  fetch('http://localhost:5000/deposit/amount', {
+    'method': 'POST',
+    'headers': {
+      'Content-Type': 'application/json',
+      'authorization': token
+    }
+  })
+  .then(res => res.text())
+  .then(data => openPageAndWriteToken(data, token))
+}
+
+// function getValidPartners()
 
 function Home(props) {
 
@@ -32,7 +55,7 @@ function Home(props) {
       .then(res => res.json())
       .then((result) => {
         setBalance(result)
-        setPaid(true)
+        setPaid(true) 
       })
     }
   
@@ -75,7 +98,7 @@ function Home(props) {
     }
     else
     {
-      body = <div><HomeText balance={balance}/><img onClick ={() => createWindow()} style={{width:'140px', "pointer-events": "all"}} src = {StripeButton}/></div>
+      body = <div><HomeText balance={balance}/><img onClick ={() => createWindow(token)} style={{width:'140px', "pointer-events": "all"}} src = {StripeButton}/></div>
       
     }
 
