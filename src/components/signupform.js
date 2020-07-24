@@ -3,10 +3,11 @@ import { Form, Input, Button} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
-function Signup() {
+function Signup(props) {
 
     const onFinish = values => {
         console.log('Received values of form: ', values);
+        props.registerRequest(values)
       };
 
     return(
@@ -18,16 +19,16 @@ function Signup() {
         onFinish={onFinish}>
 
         <Form.Item
-          name="username"
-          rules={[{ required: true, message: 'Please input your Username!' }]}
+          name="email"
+          rules={[{ required: true, message: 'Please input your email!' }]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
         </Form.Item>
 
         <Form.Item name = "passwords" >
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Please input your Password!' }]}
+            rules={[{ required: true, message: 'Please input your password!' }]}
             style = {{display:'inline-block', width:'calc(50% - 8px)'}}
           >
             <Input
@@ -39,7 +40,7 @@ function Signup() {
 
           <Form.Item
             name="confirm-password"
-            rules={[{ required: true, message: 'Please input your Password!' }]}
+            rules={[{ required: true, message: 'Please input your password!' }]}
             style = {{display:'inline-block', width:'calc(50% - 8px)', margin: '0 8px'}}
           >
             <Input

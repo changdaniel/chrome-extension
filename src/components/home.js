@@ -41,67 +41,100 @@ function createWindow(token) {
   .then(data => openPageAndWriteToken(data, token))
 }
 
-// function getValidPartners()
+function getValidPartners(token) {
+  fetch('http://localhost:5000/deposit/amount', {
+    'method': 'POST',
+    'headers': {
+      'Content-Type': 'application/json',
+      'authorization': token
+    }
+  })
+  .then(res => res.json)
+}
 
 function Home(props) {
 
     const [url, setUrl] = useState("")
     const [balance, setBalance] = useState(0)
     const [paid, setPaid] = useState(false)
+    const [token, setToken] = useState(props.token)
+    const [email, setEmail] = useState("no one")
     
-    function writeAndSetBalance(amount){
+    function makePayment(values){
   
-      fetch(`http://127.0.0.1:5000/set-balance?amount=${amount}`)
-      .then(res => res.json())
-      .then((result) => {
-        setBalance(result)
-        setPaid(true) 
+      fetch('http://localhost:5000/payments', {
+        'method': 'POST',
+        'headers': {
+          'Content-Type': 'application/json',
+          'authorization': token
+          },
+        body:JSON.stringify(values)
+        })
+        .then(res => res.json())
+        .then((result) => {
+
+          getUser()
+          setPaid(true) 
       })
     }
   
-    function getBalance(){
-      fetch(`http://127.0.0.1:5000/get-balance`)
-      .then(res => res.json())
-      .then((result) => {
-        setBalance(result)
+    function getUser(){
+      fetch('http://localhost:5000/users', {
+        'method': 'GET',
+        'headers': {
+        'Content-Type': 'application/json',
+        'authorization': token
+      }
+    })
+    .then(res => res.json())
+    .then((result) => {
+        if(result.okay)
+        {
+          console.log(result)
+          setBalance(result.user.balance)
+          setEmail(result.user.email)
+        }
+        else{
+          console.log('getUser fail')
+        }
       })
     }
   
-    useEffect(() =>{
+    useEffect(() => {
         
       window.addEventListener('load', function() {
           getCurrentTabUrl(function(url) {
             setUrl(url)
           });
-          getBalance();
           setPaid(false);
       })
   
     });
+
+    getUser()
   
     let body;
     const footer = <h3 color="white">Our team is ready to <u>help</u></h3>
     
     if (paid == true)
     {
-      body = (<div><HomeText balance={balance}/><h2 style ={{color:"white"}}>Thank you!</h2></div>)
+      body = (<div><HomeText email={email} balance={balance}/><h2 style ={{color:"white"}}>Thank you!</h2></div>)
     }
-    else if(url == "https://joincobble.com/")
-    {
-      body = (<div><HomeText balance={balance}/><PaywallBanner balance={balance} setBalance={writeAndSetBalance} setPaid={setPaid} currentUrl={url}/></div>)
+    // else if(url == "https://joincobble.com/")
+    // {
+    //   body = (<div><HomeText balance={balance}/><PaywallBanner makePayment={makePayment} setPaid={setPaid} currentUrl={url}/></div>)
       
-    }
+    // }
     else if (url == "https://eftakhairul.com/ssh-to-aws-ec2-instance-without-key-pairs/")
     {
-      body = (<div><HomeText balance={balance}/><DonationBanner balance={balance} setBalance={writeAndSetBalance} setPaid={setPaid} currentUrl={url}/></div>)
+      body = (<div><HomeText email={email} balance={balance}/><DonationBanner makePayment={makePayment} setPaid={setPaid} currentUrl={url}/></div>)
       
     }
     else
     {
-      body = <div><HomeText balance={balance}/><img onClick ={() => createWindow(token)} style={{width:'140px', "pointer-events": "all"}} src = {StripeButton}/></div>
+      body = <div><HomeText email={email} balance={balance}/><img onClick ={() => createWindow(token)} style={{width:'140px', "pointer-events": "all"}} src = {StripeButton}/></div>
       
     }
-
 
     return(
         <Wrapper

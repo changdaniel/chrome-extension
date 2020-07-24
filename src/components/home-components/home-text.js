@@ -9,7 +9,7 @@ const HomeText = (props) =>
 
         <div>
             <h3 className = "home-text">
-                Hi, Daniel
+                Hi, {props.email}
             </h3>
             <h3 className = "home-text">
                 Your account balance:

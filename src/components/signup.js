@@ -12,7 +12,7 @@ const Signup = (props) => {
 
     return(
         <Wrapper
-        body = {<SignupForm/>}
+        body = {<SignupForm registerRequest={props.registerRequest}/>}
         footer = {<p>Already have an account? <a onClick={switchPage}>Login</a></p>}
         />
     )

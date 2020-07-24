@@ -13,7 +13,7 @@ function DonationBanner(props) {
     }
 
     const onClick = (event) => {
-        props.setBalance(props.balance - event.target.value)
+        props.makePayment({'amount': value, 'type':'donation', 'business':'rain@google.com'})
         props.setPaid(true)
     }
 
