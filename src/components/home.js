@@ -6,11 +6,10 @@ import 'antd/dist/antd.css';
 import getCurrentTabUrl from '../detection/detection'
 import PaywallBanner from './home-components/paywall-banner';
 import DonationBanner from './home-components/donation-banner';
-//import PayPalButton from './home-components/paypal'
 import StripeButton from './home-components/stripe-button.svg';
 import HomeText from './home-components/home-text'
 import Wrapper from './wrapper'
-
+import TopUp from './home-components/topup';
 // function createWindow(callback) {
    
 //     chrome.windows.create({
@@ -172,7 +171,7 @@ function Home(props) {
     }
     else if (deposited == true)
     {
-      body = (<div><h2>How much would you like to top up?</h2></div>)
+      body = (<TopUp makeDeposit={(amount) => getCardPage(token, amount)}/>)
     }
     else
     {

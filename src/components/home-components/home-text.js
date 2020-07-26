@@ -1,5 +1,4 @@
 import React from 'react'
-import './home-text.css'
 
 
 const HomeText = (props) =>
@@ -8,13 +7,13 @@ const HomeText = (props) =>
     return(
 
         <div>
-            <h3 className = "home-text">
+            <h3 style={{color:"white"}}>
                 Hi, {props.email}
             </h3>
-            <h3 className = "home-text">
+            <h3 style={{color:"white"}}>
                 Your account balance:
             </h3>
-            <h2 className = "home-text">
+            <h2 style={{color:"white"}}>
                 <strong>{(props.balance/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</strong>
             </h2>
         </div>
