@@ -6,10 +6,6 @@ import SignupForm from './signupform';
 
 const Signup = (props) => {
 
-    const switchPage = () => {
-        props.switchPage(true)
-    }
-
     return(
         <Wrapper
         body = {<SignupForm registerRequest={props.registerRequest}/>}

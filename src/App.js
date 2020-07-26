@@ -69,11 +69,11 @@ const App = () => {
   }
   else if(isLogin)
   {
-    ret = <Login loginRequest = {loginRequest} switchPage = {setIsLogin}/> 
+    ret = <Login loginRequest = {loginRequest} switchPage = {() => setIsLogin(false)}/> 
   }
   else if(!isLogin)
   {
-    ret = <Register registerRequest = {registerRequest} switchPage = {setIsLogin}/>
+    ret = <Register registerRequest = {registerRequest} switchPage = {() => setIsLogin(true)}/>
   }
 
   return( 

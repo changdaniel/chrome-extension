@@ -19,14 +19,39 @@ import Wrapper from './wrapper'
  
 //  }
 
-const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFhZGRhMTIxMjEyQGEuY29tIiwiZXhwIjoxNTk1ODM4MjAmgt2cJYfxYqGDfp_S9fVWs97sSSAksMuhzDhU2Rk'
 
 function openPageAndWriteToken(pageContent, token) {
   var x = window.open();
   x.document.open("_blank");
   x.document.write(pageContent);
-  x.document.getElementById('user_token').setAttribute('value', token)
+  x.document.getElementById('user_token').value = token;
   x.document.close();
+}
+
+function getCardPage(token, amount){
+  var w = window.open();
+  var message = w.document.createElement('p')
+  w.document.body.appendChild(message)
+  message.value = "Loading..."
+
+  var form = w.document.createElement('form');
+  var token_input = w.document.createElement('input')
+  var amount_input = w.document.createElement('input')
+  form.setAttribute('action', 'http://localhost:5000/deposit/card')
+  form.setAttribute('method', 'POST')
+  token_input.setAttribute('name', 'token')
+  token_input.setAttribute('type', 'hidden')
+  token_input.value = token
+  amount_input.setAttribute('name', 'amount')
+  amount_input.setAttribute('type', 'hidden')
+  amount_input.value = amount
+
+  w.document.body.appendChild(form)
+  form.appendChild(token_input)
+  form.appendChild(amount_input)
+
+  form.submit()
+  w.document.close()
 }
  
 function createWindow(token) {
@@ -52,14 +77,19 @@ function getValidPartners(token) {
   .then(res => res.json)
 }
 
+// function makeDeposit(token) {
+//   document.createElement
+// }
+
 function Home(props) {
 
     const [url, setUrl] = useState("")
     const [balance, setBalance] = useState(0)
     const [paid, setPaid] = useState(false)
+    const [deposited, setDeposited] = useState(false)
     const [token, setToken] = useState(props.token)
     const [email, setEmail] = useState("no one")
-    
+
     function makePayment(values){
   
       fetch('http://localhost:5000/payments', {
@@ -75,7 +105,7 @@ function Home(props) {
 
           getUser()
           setPaid(true) 
-      })
+      })    
     }
   
     function getUser(){
@@ -99,22 +129,32 @@ function Home(props) {
         }
       })
     }
-  
-    useEffect(() => {
+      
+    function logOut(){
+      localStorage.removeItem('authenticated')
+      localStorage.removeItem('loginToken')
+
+      window.close()
+    }
+
+
+    useEffect(() => { 
         
       window.addEventListener('load', function() {
           getCurrentTabUrl(function(url) {
-            setUrl(url)
+            setUrl(url) 
           });
           setPaid(false);
+          setDeposited(false);
       })
   
     });
 
+
     getUser()
   
     let body;
-    const footer = <h3 color="white">Our team is ready to <u>help</u></h3>
+    const footer = <h3 color="white"><a onClick={logOut}>Log out</a></h3>
     
     if (paid == true)
     {
@@ -125,14 +165,18 @@ function Home(props) {
     //   body = (<div><HomeText balance={balance}/><PaywallBanner makePayment={makePayment} setPaid={setPaid} currentUrl={url}/></div>)
       
     // }
-    else if (url == "https://eftakhairul.com/ssh-to-aws-ec2-instance-without-key-pairs/")
+    else if (url == "https://eftakhairul.com/")
     {
       body = (<div><HomeText email={email} balance={balance}/><DonationBanner makePayment={makePayment} setPaid={setPaid} currentUrl={url}/></div>)
       
     }
+    else if (deposited == true)
+    {
+      body = (<div><h2>How much would you like to top up?</h2></div>)
+    }
     else
     {
-      body = <div><HomeText email={email} balance={balance}/><img onClick ={() => createWindow(token)} style={{width:'140px', "pointer-events": "all"}} src = {StripeButton}/></div>
+      body = <div><HomeText email={email} balance={balance}/><img onClick ={() => setDeposited(true)} style={{width:'140px', "pointer-events": "all"}} src = {StripeButton}/></div>
       
     }
 

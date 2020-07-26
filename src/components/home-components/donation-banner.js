@@ -5,7 +5,7 @@ import './donation-banner.css'
 function DonationBanner(props) {
 
 
-    const [value, setValue] = useState(0)
+    const [value, setValue] = useState(100)
 
 
     const rangeSlide = (event) => {
@@ -19,7 +19,7 @@ function DonationBanner(props) {
 
     return(
         
-        <section id="donate">
+        <section id="slider">
             <div>
                 <span id="rangeValue">{(value/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</span>
                 <input 
@@ -27,8 +27,8 @@ function DonationBanner(props) {
                 type="range" 
                 name="" 
                 value={value} 
-                min="0" 
-                max="1000" 
+                min="1" 
+                max="300" 
                 onChange={rangeSlide}
                 /> 
                 <div>
