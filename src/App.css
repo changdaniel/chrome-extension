@@ -7,16 +7,15 @@
 
 .App-header {
 
-  background-color: white;
+  background-color: #111c34;
 
   width:427px;
-  height:117px;
+  height:90px;
 
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 
-  padding-left: 54px;
 }
 
 .App-logo {
@@ -37,6 +36,17 @@
   position: relative;
 }
 
+.App-body p{
+  color: white
+}
+.App-body h3{
+  color: white
+}
+.App-body h4{
+  color: white
+}
+
+
 
 .App-footer {
   border-top: 6px solid #af3d55;
@@ -48,6 +58,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.App-footer p {
+  color:white
+}
+
+
+.App-footer a {
+  color:white;
+  font-weight:bold;
+  text-decoration: underline;
+
 }
 
 /* .App-logo {

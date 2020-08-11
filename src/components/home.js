@@ -6,10 +6,11 @@ import 'antd/dist/antd.css';
 import getCurrentTabUrl from '../detection/detection'
 import PaywallBanner from './home-components/paywall-banner';
 import DonationBanner from './home-components/donation-banner';
-import StripeButton from './home-components/stripe-button.svg';
 import HomeText from './home-components/home-text'
 import Wrapper from './wrapper'
 import TopUp from './home-components/topup';
+import FooterWrapper from './home-components/footer-wrapper'
+
 // function createWindow(callback) {
    
 //     chrome.windows.create({
@@ -17,6 +18,10 @@ import TopUp from './home-components/topup';
 //          type: 'popup'}, callback)
  
 //  }
+
+const prod_endpoint = "https://api.joincobble.com/"
+const dev_endpoint = "http://localhost:5000/"
+const endpoint = prod_endpoint
 
 
 function openPageAndWriteToken(pageContent, token) {
@@ -36,7 +41,7 @@ function getCardPage(token, amount){
   var form = w.document.createElement('form');
   var token_input = w.document.createElement('input')
   var amount_input = w.document.createElement('input')
-  form.setAttribute('action', 'http://localhost:5000/deposit/card')
+  form.setAttribute('action', endpoint+'deposit/card')
   form.setAttribute('method', 'POST')
   token_input.setAttribute('name', 'token')
   token_input.setAttribute('type', 'hidden')
@@ -54,7 +59,7 @@ function getCardPage(token, amount){
 }
  
 function createWindow(token) {
-  fetch('http://localhost:5000/deposit/amount', {
+  fetch(endpoint+'deposit/amount', {
     'method': 'POST',
     'headers': {
       'Content-Type': 'application/json',
@@ -89,9 +94,10 @@ function Home(props) {
     const [token, setToken] = useState(props.token)
     const [email, setEmail] = useState("no one")
 
+
     function makePayment(values){
   
-      fetch('http://localhost:5000/payments', {
+      fetch(endpoint+'payments', {
         'method': 'POST',
         'headers': {
           'Content-Type': 'application/json',
@@ -108,7 +114,7 @@ function Home(props) {
     }
   
     function getUser(){
-      fetch('http://localhost:5000/users', {
+      fetch(endpoint+'users', {
         'method': 'GET',
         'headers': {
         'Content-Type': 'application/json',
@@ -153,7 +159,12 @@ function Home(props) {
     getUser()
   
     let body;
-    const footer = <h3 color="white"><a onClick={logOut}>Log out</a></h3>
+    let left=(<div>
+               <p style={{marginBottom:"0"}}>Balance: {(balance/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
+               <a style={{marginTop:"0", marginBottom:"0"}} onClick={() => setDeposited(true)}>Top Up</a>
+              </div>)
+    let center=(<a href="mailto:joincobble@gmail.com">Contact Us</a>)
+    let right= (<a onClick={logOut}>Log out</a>)
     
     if (paid == true)
     {
@@ -166,18 +177,35 @@ function Home(props) {
     // }
     else if (url == "https://eftakhairul.com/")
     {
-      body = (<div><HomeText email={email} balance={balance}/><DonationBanner makePayment={makePayment} setPaid={setPaid} currentUrl={url}/></div>)
+      body = (<div>
+                <h3>Show {url.replace('http://','').replace('https://','').replace('www.', "").split(/[/?#]/)[0]} some love!</h3>
+                <DonationBanner makePayment={makePayment} setPaid={setPaid} currentUrl={url}/>)
+              </div>)
       
     }
     else if (deposited == true)
     {
       body = (<TopUp makeDeposit={(amount) => getCardPage(token, amount)}/>)
+      left = (<div>
+                <p style={{marginBottom:"0"}}>Balance: {(balance/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
+                <a style={{marginTop:"0", marginBottom:"0"}} onClick={() => setDeposited(false)}>Go Back</a>
+              </div>)
     }
     else
     {
-      body = <div><HomeText email={email} balance={balance}/><img onClick ={() => setDeposited(true)} style={{width:'140px', "pointer-events": "all"}} src = {StripeButton}/></div>
-      
+      body = (<div>
+          <h3>Show {url.replace('http://','').replace('https://','').replace('www.', "").split(/[/?#]/)[0]} some love!</h3>
+          <DonationBanner makePayment={makePayment} setPaid={setPaid} currentUrl={url}/>
+          <h4>This site is not a partner yet.</h4>
+          <a target= "_blank"href="https://joincobble.com/#contact">What does Cobble do with your donation?</a>
+        </div>)
     }
+
+    let footer = <FooterWrapper
+                  left= {left}
+                  center = {center}
+                  right = {right}
+                  />
 
     return(
         <Wrapper

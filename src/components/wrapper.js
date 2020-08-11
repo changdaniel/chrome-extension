@@ -1,9 +1,9 @@
 import React from 'react';
-import logo from '../logo.png'
+import logo from '../inverted-logo.png'
 import '../App.css';
 
 const default_header = <img src={logo} className="App-logo"></img> 
-const default_footer = <p>default footer</p>
+const default_footer = <p>Support your favorite creators!</p>
 
 const Wrapper = (props) => (
     

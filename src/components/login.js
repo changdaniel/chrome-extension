@@ -9,7 +9,7 @@ const Login = (props) => {
     return(
         <Wrapper    
          body = {<LoginForm loginRequest ={props.loginRequest}/>}
-         footer = {<p>Don't have an account? <a onClick={props.switchPage}>Register</a></p>}
+         footer = {<p>Don't have an account? <a onClick={props.switchPage}><b><u>Register</u></b></a> </p>}
         />
     )
 }

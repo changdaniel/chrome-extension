@@ -3,7 +3,7 @@ API_SOURCE = 'http://localhost:5000'
 
 export const makeRequest = (endpoint, params) => {
 
-    return fetch(`API_SOURCE/${endpoint}`, params)
+    return fetch(`${API_SOURCE}/${endpoint}`, params)
 }
 
 export const generateAuthParam = (token) => {

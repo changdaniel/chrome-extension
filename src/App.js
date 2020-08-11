@@ -4,9 +4,10 @@ import Router, { Link, goBack, goTo } from 'route-lite';
 import Register from './components/signup';
 import Login from './components/login';
 import Home from './components/home';
+import Wrapper from './components/wrapper';
 
-
-
+const prod_endpoint = "https://api.joincobble.com/"
+const dev_endpoint = "http://localhost:5000/"
 
 const App = () => {
 
@@ -15,9 +16,11 @@ const App = () => {
   const [isLogin, setIsLogin] = useState(true)
   const [loading, setLoading] = useState(false)
 
+  const endpoint =  prod_endpoint
+
   function loginRequest(values){
 
-    fetch('http://127.0.0.1:5000/auth/login', {
+    fetch(endpoint+'auth/login', {
       method: 'POST',
       headers: {
       'Content-Type': 'application/json'
@@ -40,7 +43,7 @@ const App = () => {
 
   function registerRequest(values){
     setLoading(true)
-    fetch('http://127.0.0.1:5000/auth/register', {
+    fetch(endpoint+'auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -52,7 +55,11 @@ const App = () => {
 
       if(result.okay)
       {
-        loginRequest(values)
+        console.log('register okay')
+      }
+      else
+      {
+        console.log(result)
       }
     })  
   }
@@ -65,7 +72,7 @@ const App = () => {
   }
   else if(loading)
   {
-    ret = <p> Logging you in...</p>
+    ret = <Wrapper body={<h2 style={{color:'white'}}>Check your email to verify your account</h2>}/>
   }
   else if(isLogin)
   {

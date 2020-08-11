@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import './donation-banner.css'
+import { Button } from 'antd';
 
 
 function DonationBanner(props) {
@@ -32,7 +33,7 @@ function DonationBanner(props) {
                 onChange={rangeSlide}
                 /> 
                 <div>
-                    <button value={value} onClick={onClick}>Donate</button>
+                    <Button size="small" type="danger" shape="round" value={value} onClick={onClick}>Show some love!</Button>
                 </div>
             </div>
 
