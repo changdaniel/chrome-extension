@@ -38,7 +38,7 @@ function LoginForm(props) {
         </Form.Item>
         
         <Form.Item>
-          <a className="login-form-forgot" href="">
+          <a className="login-form-forgot" onClick={props.forgotPassword}>
             Forgot password
           </a>
         </Form.Item>

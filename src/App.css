@@ -46,6 +46,11 @@
 .App-body p{
   color: white
 }
+
+.App-body h2{
+  color: white
+}
+
 .App-body h3{
   color: white
 }
@@ -53,6 +58,9 @@
   color: white
 }
 
+.App-body button{
+  background-color: #f6395d;
+}
 
 
 .App-footer {
