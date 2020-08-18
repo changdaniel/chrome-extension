@@ -15,7 +15,7 @@ function DonationBanner(props) {
 
     const onClick = (event) => {
         props.makePayment({'amount': value, 'type':'donation', 'business':'rain@google.com'})
-        props.setPaid(true)
+        props.setScreen()
     }
 
     return(

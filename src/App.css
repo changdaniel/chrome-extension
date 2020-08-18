@@ -5,6 +5,13 @@
   font-family: 'Poppins';
 }
 
+.App a {
+  color:white;
+  font-weight:bold;
+  text-decoration: underline;
+
+}
+
 .App-header {
 
   background-color: #111c34;
@@ -65,12 +72,6 @@
 }
 
 
-.App-footer a {
-  color:white;
-  font-weight:bold;
-  text-decoration: underline;
-
-}
 
 /* .App-logo {
   height: 40vmin;

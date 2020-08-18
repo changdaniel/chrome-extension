@@ -14,8 +14,7 @@
     "48": "icon.png",
     "128": "icon.png"
   },
-  "content_security_policy": "script-src 'self' https://www.paypal.com 'sha256-XO8a3VLCcLhZnllQZgHKyrG3nkR+E4otizACoHJ7aEA'; object-src https://www.paypal.com 'self' 'sha256-XO8a3VLCcLhZnllQZgHKyrG3nkR+E4otizACoHJ7aEA';",  
   "permissions": [
-    "tabs", "activeTab", "http://*/", "https://*/"
+    "activeTab"
   ]
 }

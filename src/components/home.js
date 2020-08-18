@@ -91,9 +91,11 @@ function Home(props) {
     const [balance, setBalance] = useState(0)
     const [paid, setPaid] = useState(false)
     const [deposited, setDeposited] = useState(false)
+    const [screen, setScreen] = useState("nonpartner")
     const [token, setToken] = useState(props.token)
     const [email, setEmail] = useState("no one")
 
+    console.log(url);
 
     function makePayment(values){
   
@@ -149,6 +151,16 @@ function Home(props) {
           getCurrentTabUrl(function(url) {
             setUrl(url) 
           });
+
+          if(url == "https://eftakhairul.com/")
+          {
+            setScreen("partner")
+          }
+          else
+          {
+            setScreen("nonpartner")
+          }
+
           setPaid(false);
           setDeposited(false);
       })
@@ -159,47 +171,34 @@ function Home(props) {
     getUser()
   
     let body;
-    let left=(<div>
-               <p style={{marginBottom:"0"}}>Balance: {(balance/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
-               <a style={{marginTop:"0", marginBottom:"0"}} onClick={() => setDeposited(true)}>Top Up</a>
-              </div>)
-    let center=(<a href="mailto:joincobble@gmail.com">Contact Us</a>)
-    let right= (<a onClick={logOut}>Log out</a>)
-    
-    if (paid == true)
-    {
-      body = (<div><HomeText email={email} balance={balance}/><h2 style ={{color:"white"}}>Thank you!</h2></div>)
-    }
-    // else if(url == "https://joincobble.com/")
-    // {
-    //   body = (<div><HomeText balance={balance}/><PaywallBanner makePayment={makePayment} setPaid={setPaid} currentUrl={url}/></div>)
-      
-    // }
-    else if (url == "https://eftakhairul.com/")
-    {
-      body = (<div>
-                <h3>Show {url.replace('http://','').replace('https://','').replace('www.', "").split(/[/?#]/)[0]} some love!</h3>
-                <DonationBanner makePayment={makePayment} setPaid={setPaid} currentUrl={url}/>)
-              </div>)
-      
-    }
-    else if (deposited == true)
-    {
-      body = (<TopUp makeDeposit={(amount) => getCardPage(token, amount)}/>)
-      left = (<div>
-                <p style={{marginBottom:"0"}}>Balance: {(balance/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
-                <a style={{marginTop:"0", marginBottom:"0"}} onClick={() => setDeposited(false)}>Go Back</a>
-              </div>)
-    }
-    else
-    {
-      body = (<div>
+    let left= <a style={{marginTop:"0", marginBottom:"0"}} onClick={() => setScreen("topup")}>Top Up</a>
+    let center=<p style={{marginBottom:"0"}}>Balance: {(balance/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</p>
+    let right= <a onClick={logOut}>Log out</a>
+   
+    switch (screen) {
+      case "partner":
+        body = (<div>
+                  <h3>Show {url.replace('http://','').replace('https://','').replace('www.', "").split(/[/?#]/)[0]} some love!</h3>
+                  <DonationBanner makePayment={makePayment} setScreen={() => setScreen("paid")} currentUrl={url}/>)
+                </div>)
+        break;
+      case "paid":
+        body = (<div><HomeText email={email} balance={balance}/><h2 style ={{color:"white"}}>Thank you!</h2></div>)
+        break
+      case "topup":
+        body = <TopUp makeDeposit={(amount) => getCardPage(token, amount)}/>
+        left = <a style={{marginTop:"0", marginBottom:"0"}} onClick={() => setScreen("nonpartner")}>Go Back</a>
+        break;
+      default:
+        body = (<div>
           <h3>Show {url.replace('http://','').replace('https://','').replace('www.', "").split(/[/?#]/)[0]} some love!</h3>
-          <DonationBanner makePayment={makePayment} setPaid={setPaid} currentUrl={url}/>
+          <DonationBanner makePayment={makePayment} setScreen={() => setScreen("paid")} currentUrl={url}/>
           <h4>This site is not a partner yet.</h4>
           <a target= "_blank"href="https://joincobble.com/#contact">What does Cobble do with your donation?</a>
         </div>)
+        break
     }
+
 
     let footer = <FooterWrapper
                   left= {left}
