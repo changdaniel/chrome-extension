@@ -89,8 +89,6 @@ function Home(props) {
 
     const [url, setUrl] = useState("")
     const [balance, setBalance] = useState(0)
-    const [paid, setPaid] = useState(false)
-    const [deposited, setDeposited] = useState(false)
     const [screen, setScreen] = useState("nonpartner")
     const [token, setToken] = useState(props.token)
     const [email, setEmail] = useState("no one")
@@ -111,7 +109,7 @@ function Home(props) {
         .then((result) => {
 
           getUser()
-          setPaid(true) 
+          setScreen("paid")
       })    
     }
   
@@ -149,20 +147,16 @@ function Home(props) {
         
       window.addEventListener('load', function() {
           getCurrentTabUrl(function(url) {
-            setUrl(url) 
+            setUrl(url)
+            if(url == "https://eftakhairul.com/")
+            {
+              setScreen("partner")
+            }
+            else
+            {
+              setScreen("nonpartner")
+            }
           });
-
-          if(url == "https://eftakhairul.com/")
-          {
-            setScreen("partner")
-          }
-          else
-          {
-            setScreen("nonpartner")
-          }
-
-          setPaid(false);
-          setDeposited(false);
       })
   
     });
@@ -179,26 +173,30 @@ function Home(props) {
       case "partner":
         body = (<div>
                   <h3>Show {url.replace('http://','').replace('https://','').replace('www.', "").split(/[/?#]/)[0]} some love!</h3>
-                  <DonationBanner makePayment={makePayment} setScreen={() => setScreen("paid")} currentUrl={url}/>)
+                  <DonationBanner balance={balance}  makePayment={makePayment} setScreen={() => setScreen("paid")} currentUrl={url}/>
                 </div>)
         break;
       case "paid":
-        body = (<div><HomeText email={email} balance={balance}/><h2 style ={{color:"white"}}>Thank you!</h2></div>)
+        body = <h2 style ={{color:"white"}}>Thank you!</h2>
         break
       case "topup":
-        body = <TopUp makeDeposit={(amount) => getCardPage(token, amount)}/>
-        left = <a style={{marginTop:"0", marginBottom:"0"}} onClick={() => setScreen("nonpartner")}>Go Back</a>
+        body = <div style = {{position:"relative", minHeight:"90%"}}>
+                <TopUp makeDeposit={(amount) => getCardPage(token, amount)}/>
+                <div style ={{width:"100%", position:"absolute", bottom:"0px"}}>
+                  <a href="https://joincobble.com/#contact" target="_blank"style={{float:"left", width:"100px", wordWrap:"break-word"}}>Why is there a $5 minimum?</a>
+                  <a href="https://stripe.com/" target="_blank" style={{float:"right"}}>What is Stripe?</a>
+                </div>
+               </div>
         break;
       default:
         body = (<div>
           <h3>Show {url.replace('http://','').replace('https://','').replace('www.', "").split(/[/?#]/)[0]} some love!</h3>
-          <DonationBanner makePayment={makePayment} setScreen={() => setScreen("paid")} currentUrl={url}/>
+          <DonationBanner balance={balance} makePayment={makePayment} setScreen={() => setScreen("paid")} currentUrl={url}/>
           <h4>This site is not a partner yet.</h4>
           <a target= "_blank"href="https://joincobble.com/#contact">What does Cobble do with your donation?</a>
         </div>)
         break
     }
-
 
     let footer = <FooterWrapper
                   left= {left}

@@ -6,7 +6,7 @@ import { Button } from 'antd';
 function DonationBanner(props) {
 
 
-    const [value, setValue] = useState(100)
+    const [value, setValue] = useState(props.balance > 100 ? 100: props.balance)
 
 
     const rangeSlide = (event) => {
@@ -14,8 +14,18 @@ function DonationBanner(props) {
     }
 
     const onClick = (event) => {
-        props.makePayment({'amount': value, 'type':'donation', 'business':'rain@google.com'})
-        props.setScreen()
+
+        if(value == 0)
+        {
+            alert("Cannot donate $0")
+        }
+        else
+        {
+
+            props.makePayment({'amount': value, 'type':'donation', 'business':'rain@google.com'})
+            props.setScreen()
+        }
+
     }
 
     return(
@@ -28,12 +38,12 @@ function DonationBanner(props) {
                 type="range" 
                 name="" 
                 value={value} 
-                min="1" 
-                max="300" 
+                min="0" 
+                max={props.balance > 300? "300": props.balance.toString()}
                 onChange={rangeSlide}
                 /> 
                 <div>
-                    <Button size="small" type="danger" shape="round" value={value} onClick={onClick}>Show some love!</Button>
+                    <Button size="small" type="danger" shape="round" value={value} onClick={onClick}>Show the love!</Button>
                 </div>
             </div>
 
