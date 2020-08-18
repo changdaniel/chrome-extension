@@ -3,6 +3,7 @@ import Router, { Link, goBack, goTo } from 'route-lite';
 // const { Header, Content, Footer } = Layout;
 import Register from './components/signup';
 import Login from './components/login';
+import Forgot from './components/forgot'
 import Home from './components/home';
 import Wrapper from './components/wrapper';
 
@@ -13,8 +14,7 @@ const App = () => {
 
   const [loginToken, setLoginToken] = useState(localStorage.getItem('loginToken') || 'noToken')
   const [authenticated, setAuthenticated] = useState(localStorage.getItem('authenticated') || false)
-  const [isLogin, setIsLogin] = useState(true)
-  const [loading, setLoading] = useState(false)
+  const [screen, setScreen] = useState("login")
 
   const endpoint =  prod_endpoint
 
@@ -36,13 +36,12 @@ const App = () => {
         localStorage.setItem('loginToken', result.token)
         setAuthenticated(true)
         localStorage.setItem('authenticated', true)
-        setLoading(false)
       } 
     })
   }
 
   function registerRequest(values){
-    setLoading(true)
+    setScreen("check")
     fetch(endpoint+'auth/register', {
       method: 'POST',
       headers: {
@@ -56,6 +55,7 @@ const App = () => {
       if(result.okay)
       {
         console.log('register okay')
+        setScreen("check")
       }
       else
       {
@@ -64,23 +64,37 @@ const App = () => {
     })  
   }
 
+  console.log(screen)
   let ret
 
   if(authenticated)
   {
     ret = <Home token = {loginToken}/>
   }
-  else if(loading)
+  else
   {
-    ret = <Wrapper body={<h2 style={{color:'white'}}>Check your email to verify your account</h2>}/>
-  }
-  else if(isLogin)
-  {
-    ret = <Login loginRequest = {loginRequest} switchPage = {() => setIsLogin(false)}/> 
-  }
-  else if(!isLogin)
-  {
-    ret = <Register registerRequest = {registerRequest} switchPage = {() => setIsLogin(true)}/>
+    switch (screen)
+    {
+      case "login":
+        ret = <Login loginRequest = {loginRequest} forgotPassword = {() => setScreen("forgot")} switchPage = {() => setScreen("register")}/> 
+        break;
+      case "register":
+        ret = <Register registerRequest = {registerRequest} switchPage = {() => setScreen("login")}/>
+        break;
+      case "forgot":
+        ret = <Forgot switchPage={() => setScreen("login")}/>
+        break;
+      case "check":
+          ret = <Wrapper 
+                  body = {
+                      <div>
+                        <h2 style={{color:'white'}}>Check your email to verify your account.</h2>
+                        <h3>This window needs to be reopened after verification</h3>
+                      </div>
+                      }/>
+        break;
+    }
+
   }
 
   return( 
