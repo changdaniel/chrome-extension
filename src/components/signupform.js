@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Button} from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined, MailOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
 function Signup(props) {
@@ -18,14 +18,39 @@ function Signup(props) {
         initialValues={{ remember: true }}
         onFinish={onFinish}>
 
+        <Form.Item name = "names" style={{marginBottom:"0"}}>
+          <Form.Item
+            name="first_name"
+            rules={[{ required: true, message: 'Required' }]}
+            style = {{display:'inline-block', width:'calc(50% - 8px)'}}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              type="text"
+              placeholder="First Name"
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="last_name"
+            rules={[{ required: true, message: 'Required' }]}
+            style = {{display:'inline-block', width:'calc(50% - 8px)', margin: '0 8px'}}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              type="text"
+              placeholder="Last Name"
+            />
+          </Form.Item>
+        </Form.Item>
         <Form.Item
           name="email"
           rules={[{ required: true, message: 'Please input your email!' }]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+          <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email" />
         </Form.Item>
 
-        <Form.Item name = "passwords" >
+        <Form.Item name = "passwords1" style={{marginBottom:"0"}}>
           <Form.Item
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
@@ -51,33 +76,6 @@ function Signup(props) {
           </Form.Item>
         </Form.Item>
         
-        <div style={{marginBottom:"-20px", paddingBottom:"-20px"}}>
-        <Form.Item name = "passwords" >
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-            style = {{display:'inline-block', width:'calc(50% - 8px)'}}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Item>
-
-          <Form.Item
-            name="confirm-password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-            style = {{display:'inline-block', width:'calc(50% - 8px)', margin: '0 8px'}}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Confirm Password"
-            />
-          </Form.Item>
-        </Form.Item>
-        </div>
   
         <Form.Item>
           <Button type="danger" shape="round" htmlType="submit" className="login-form-button">
