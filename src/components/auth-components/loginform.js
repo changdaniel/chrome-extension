@@ -6,7 +6,6 @@ import 'antd/dist/antd.css';
 function LoginForm(props) {
 
     const onFinish = values => {
-        console.log('Received values of form: ', values);
         props.loginRequest(values)
       };
 

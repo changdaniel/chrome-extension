@@ -1,5 +1,6 @@
-API_SOURCE = 'http://localhost:5000'
-
+TEST = 'http://localhost:5000'
+PROD = 'https://api.joincobble.com'
+API_SOURCE = PROD
 
 export const makeRequest = (endpoint, params) => {
 

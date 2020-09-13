@@ -22,7 +22,8 @@ function DonationBanner(props) {
         else
         {
 
-            props.makePayment({'amount': value, 'type':'donation', 'business':'rain@google.com'})
+            props.makePayment({'amount': value, 'type':'donation', 'domain': props.url})
+            console.log({'amount': value, 'type':'donation', 'domain': props.url})
             props.setScreen()
         }
 

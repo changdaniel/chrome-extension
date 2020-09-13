@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Wrapper from './wrapper';
+import Wrapper from '../wrapper';
 import SignupForm from './signupform';
 
 
