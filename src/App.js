@@ -6,6 +6,7 @@ import Login from './components/auth-components/login';
 import Forgot from './components/auth-components/forgot'
 import Home from './components/home';
 import Wrapper from './components/wrapper';
+import { Button } from 'antd';
 
 const prod_endpoint = "https://api.joincobble.com/"
 const dev_endpoint = "http://localhost:5000/"
@@ -15,8 +16,16 @@ const App = () => {
   const [loginToken, setLoginToken] = useState(localStorage.getItem('loginToken') || 'noToken')
   const [authenticated, setAuthenticated] = useState(localStorage.getItem('authenticated') || false)
   const [screen, setScreen] = useState("login")
+  const [error, setError] = useState(null)
 
   const endpoint =  dev_endpoint
+
+  const displayError = (message) => {
+
+    setError(message)
+    setScreen("error")
+  
+  }
 
   function loginRequest(values){
 
@@ -39,7 +48,7 @@ const App = () => {
       }
       else
       {
-        console.log(result)
+        displayError(result.message)
       } 
     })
   }
@@ -58,12 +67,11 @@ const App = () => {
 
       if(result.okay)
       {
-        console.log('register okay')
         setScreen("check-register")
       }
       else
       {
-        console.log(result)
+        displayError(result.message)
       }
     })  
   }
@@ -83,12 +91,11 @@ const App = () => {
 
       if(result.okay)
       {
-        console.log('forgot okay')
         setScreen("check-forgot")
       }
       else
       {
-        console.log(result)
+        displayError(result.message)
       }
     })  
   }
@@ -127,6 +134,15 @@ const App = () => {
                         <h2 style={{color:'white'}}>Check your email to reset your password.</h2>
                       </div>
                       }/>
+        break;
+      case "error":
+        ret = <Wrapper
+                body = 
+                {<div>
+                    <p>{error}</p>
+                    <Button shape="round" type="danger" onClick = {() => setScreen("login")}>Go Back</Button>
+                  </div>
+                }/>
         break;
     }
 

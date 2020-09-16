@@ -15,17 +15,8 @@ function DonationBanner(props) {
 
     const onClick = (event) => {
 
-        if(value == 0)
-        {
-            alert("Cannot donate $0")
-        }
-        else
-        {
-
-            props.makePayment({'amount': value, 'type':'donation', 'domain': props.url})
-            console.log({'amount': value, 'type':'donation', 'domain': props.url})
-            props.setScreen()
-        }
+        props.makePayment(value)
+        props.setScreen()
 
     }
 
@@ -39,7 +30,7 @@ function DonationBanner(props) {
                 type="range" 
                 name="" 
                 value={value} 
-                min="0" 
+                min="1" 
                 max={props.balance > 300? "300": props.balance.toString()}
                 onChange={rangeSlide}
                 /> 

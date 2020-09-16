@@ -1,6 +1,7 @@
 
 /*global chrome*/
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
+import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import parse from 'url-parse';
 import getCurrentTabUrl from '../detection/detection'
@@ -59,10 +60,15 @@ function Home(props) {
     const [token, setToken] = useState(props.token)
     const [email, setEmail] = useState("no one")
     const [partners, setPartners] = useState([])
+    const [error, setError] = useState(null)
 
-    console.log(url);
 
-    function makePayment(values){
+     const displayError = (message) => {
+      setError(message)
+      setScreen("error")
+    }
+
+    function makePayment(value, otherParams){
   
       fetch(endpoint+'payments', {
         'method': 'POST',
@@ -70,7 +76,10 @@ function Home(props) {
           'Content-Type': 'application/json',
           'authorization': token
           },
-        body:JSON.stringify(values)
+        body:JSON.stringify({
+          "amount":value,
+          ...otherParams
+        })
         })
         .then(res => res.json())
         .then((result) => {
@@ -80,7 +89,7 @@ function Home(props) {
             setScreen("paid")
           }
           else {
-            console.log(result)
+            displayError(result.message)
           }
       })    
     }
@@ -100,12 +109,13 @@ function Home(props) {
           setBalance(result.user.balance)
           setEmail(result.user.email)
         }
-        else{
-          console.log('getUser fail')
+        else
+        {
+          console.log("here")
+          logOut()
         }
       })
     }
-
 
     function getPartners(){
       fetch(endpoint+'partners', {
@@ -119,11 +129,11 @@ function Home(props) {
     .then((result) => {
         if(result.okay)
         {
-          console.log(result)
           setPartners(result.partners.donation)
         }
-        else{
-          console.log('getPartners fail')
+        else
+        {
+          displayError(result.message)
         }
       })
     }
@@ -131,7 +141,7 @@ function Home(props) {
     function logOut(){
       localStorage.removeItem('authenticated')
       localStorage.removeItem('loginToken')
-
+      firstTime.current = true
       window.close()
     }
 
@@ -143,32 +153,41 @@ function Home(props) {
       return (cents/100).toLocaleString("en-US", {style:"currency", currency:"USD"})
     }
 
+    const onStart = () => {
+        getCurrentTabUrl(function(url) {
+          
+          setUrl(url)
+          parsedURL = parse(url)
+          
+          if (parsedURL.hostname === "twitter.com")
+          {
+            setScreen("twitter")
+          }
+          else if(partners.includes(parsedURL.hostname))
+          {
+            setScreen("partner")
+          }
+          else
+          {
+            setScreen("nonpartner")
+          }
 
-    useEffect(() => { 
-        
-      window.addEventListener('load', function() {
-          getCurrentTabUrl(function(url) {
-            
-            setUrl(url)
-            parsedURL = parse(url)
-            
-            if (parsedURL.hostname === "twitter.com")
-            {
-              setScreen("twitter")
-            }
-            else if(partners.includes(parsedURL.hostname))
-            {
-              setScreen("partner")
-            }
-            else
-            {
-              setScreen("nonpartner")
-            }
-          });
-      })
-  
+        });
+    }
+
+    const firstTime = useRef(true)
+    useEffect(() => {
+
+
+      if(firstTime.current)
+      {
+        onStart()
+        firstTime.current = false; 
+      }
+       window.addEventListener('load', function() {
+        onStart()  
+       })
     });
-
 
     getUser()
 
@@ -200,18 +219,27 @@ function Home(props) {
       case "twitter":
         let twitterUser = parsedURL.pathname.split("/")[1]
         let twitterProfile = `https://twitter.com/${twitterUser}`
+
         body = (<div>
-          <h3>Show Twitter: <a target="_blank" href={twitterProfile}>{twitterUser}</a> some love!</h3>
-          <DonationBanner balance={balance} makePayment={makePayment} setScreen={() => setScreen("paid")} url={url}/>
+          <h3>Show tweeter <a target="_blank" href={twitterProfile}>{twitterUser}</a> some love!</h3>
+          <DonationBanner balance={balance} makePayment={(value) => makePayment(value, {'type':'twitter', 'identifier': twitterUser})} setScreen={() => setScreen("paid")} />
           <h4>This user is not a partner yet.</h4>
           <a target= "_blank"href="https://joincobble.com/FAQs.html">What does Cobble do with your donation?</a>
         </div>)
         break
-      default:
+      case "error":
+        body = (
+          <div>
+            <p>{error}</p>
+            <Button shape="round" type="danger" onClick = {() => onStart()}>Go Back</Button>
+          </div>
+        )
+        break;
+      case "nonpartner":
         body = (<div>
           <h3>Show {strippedUrl} some love!</h3>
-          <DonationBanner balance={balance} makePayment={makePayment} setScreen={() => setScreen("paid")} url={url}/>
-          <h4>This site is not a partner yet.</h4>
+          <DonationBanner balance={balance} makePayment={(value) => makePayment(value, {'type':'donation', 'identifier': url})} setScreen={() => setScreen("paid")}/>
+          <p>This site is not a partner yet.</p>
           <a target= "_blank"href="https://joincobble.com/FAQs.html">What does Cobble do with your donation?</a>
         </div>)
         break
