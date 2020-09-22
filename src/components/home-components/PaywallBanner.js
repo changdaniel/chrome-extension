@@ -1,9 +1,8 @@
 /*global chrome*/
 import React from 'react';
-import './paywall-banner.css'
+import '../styles/PaywallBanner.scss'
 
-
-function PaywallBanner(props) {
+export default function(props) {
 
     function updateCurrentUrl() {
 
@@ -37,4 +36,3 @@ function PaywallBanner(props) {
 
 }
 
-export default PaywallBanner

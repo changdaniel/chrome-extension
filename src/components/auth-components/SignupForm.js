@@ -1,9 +1,8 @@
 import React from 'react';
 import { Form, Input, Button} from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined} from '@ant-design/icons';
-import 'antd/dist/antd.css';
 
-function Signup(props) {
+export default function(props){
 
     const onFinish = values => {
         console.log('Received values of form: ', values);
@@ -88,4 +87,3 @@ function Signup(props) {
 
 }
 
-export default Signup

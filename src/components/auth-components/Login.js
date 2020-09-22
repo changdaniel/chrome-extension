@@ -1,10 +1,8 @@
 import React from 'react';
-import Wrapper from '../wrapper';
-import LoginForm from './loginform';
+import Wrapper from '../Wrapper';
+import LoginForm from './LoginForm';
 
-
-
-const Login = (props) => {
+export default function(props) {
 
     return(
         <Wrapper    
@@ -13,4 +11,5 @@ const Login = (props) => {
         />
     )
 }
-export default Login;
+
+

@@ -4,19 +4,30 @@ import React, {useState, useEffect, useRef} from 'react';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import parse from 'url-parse';
-import getCurrentTabUrl from '../detection/detection'
-import PaywallBanner from './home-components/paywall-banner';
-import DonationBanner from './home-components/donation-banner';
-import HomeText from './home-components/home-text'
-import Wrapper from './wrapper'
-import TopUp from './home-components/topup';
-import FooterWrapper from './home-components/footer-wrapper'
-import InfoBanner from './home-components/info-banner'
+import DonationBanner from './home-components/DonationBanner';
+import Wrapper from './Wrapper'
+import TopUp from './home-components/Topup';
+import FooterWrapper from './home-components/FooterWrapper'
+import InfoBanner from './home-components/InfoBanner'
 
 const prod_endpoint = "https://api.joincobble.com/"
 const dev_endpoint = "http://localhost:5000/"
 const endpoint = dev_endpoint
 
+
+function getCurrentTabUrl(callback) {
+
+  var queryInfo = {
+    active: true, 
+    currentWindow: true
+  };
+
+  chrome.tabs.query(queryInfo, function(tabs) {
+    var tab = tabs[0]; 
+    var url = tab.url;
+    callback(url);
+  });
+}
 
 function openPageAndWriteToken(pageContent, token) {
   var x = window.open();

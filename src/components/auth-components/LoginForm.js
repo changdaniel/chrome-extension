@@ -1,9 +1,8 @@
 import React from 'react';
 import { Form, Input, Button} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import 'antd/dist/antd.css';
 
-function LoginForm(props) {
+export default function (props) {
 
     const onFinish = values => {
         props.loginRequest(values)
@@ -53,4 +52,3 @@ function LoginForm(props) {
 
 }
 
-export default LoginForm

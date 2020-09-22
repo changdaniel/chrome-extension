@@ -1,6 +1,6 @@
-TEST = 'http://localhost:5000'
-PROD = 'https://api.joincobble.com'
-API_SOURCE = PROD
+const TEST = 'http://localhost:5000'
+const PROD = 'https://api.joincobble.com'
+const API_SOURCE = PROD
 
 export const makeRequest = (endpoint, params) => {
 
@@ -20,13 +20,3 @@ export const generateAuthParam = (token) => {
     return param
 
 }
-
-
-
-// export const makeDeposit = (token) => {
-
-//     param = generateAuthParam(token)
-//     makeRequest('/deposit/card', param)
-//     .then(res => res.text())
-//     .then(openP)
-// }

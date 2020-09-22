@@ -1,12 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import Router, { Link, goBack, goTo } from 'route-lite';
-// const { Header, Content, Footer } = Layout;
-import Register from './components/auth-components/signup';
-import Login from './components/auth-components/login';
-import Forgot from './components/auth-components/forgot'
-import Home from './components/home';
-import Wrapper from './components/wrapper';
+import React, {useState} from 'react';
+import Register from './components/auth-components/Signup';
+import Login from './components/auth-components/Login';
+import Forgot from './components/auth-components/Forgot'
+import Home from './components/Home';
+import Wrapper from './components/Wrapper';
 import { Button } from 'antd';
+
+import "./styles/App.scss"
+import 'antd/dist/antd.css';
 
 const prod_endpoint = "https://api.joincobble.com/"
 const dev_endpoint = "http://localhost:5000/"

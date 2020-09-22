@@ -1,11 +1,9 @@
-
 import React from 'react';
-import Wrapper from '../wrapper';
+import Wrapper from '../Wrapper';
 import { Form, Input, Button} from 'antd';
 import { MailOutlined} from '@ant-design/icons';
 
-const Forgot = (props) => {
-
+export default function(props){
 
     return(
         <Wrapper    
@@ -36,4 +34,3 @@ const Forgot = (props) => {
         />
     )
 }
-export default Forgot;

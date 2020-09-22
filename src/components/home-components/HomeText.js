@@ -1,8 +1,6 @@
 import React from 'react'
 
-
-const HomeText = (props) =>
-{
+export default function(props){
 
     return(
 
@@ -21,4 +19,3 @@ const HomeText = (props) =>
 
 }
 
-export default HomeText

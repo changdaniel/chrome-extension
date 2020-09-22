@@ -1,23 +1,17 @@
 import React, {useState} from 'react';
-import './donation-banner.css'
 import { Button } from 'antd';
+import '../../styles/DonationBanner.scss'
 
-
-function DonationBanner(props) {
-
-
+export default function(props) {
     const [value, setValue] = useState(props.balance > 100 ? 100: props.balance)
-
 
     const rangeSlide = (event) => {
         setValue(event.target.value)
     }
 
     const onClick = (event) => {
-
         props.makePayment(value)
         props.setScreen()
-
     }
 
     return(
@@ -40,11 +34,7 @@ function DonationBanner(props) {
             </div>
 
         </section>
-
-
-
     )
 
 }
 
-export default DonationBanner

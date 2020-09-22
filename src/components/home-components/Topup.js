@@ -1,8 +1,7 @@
 import React, {useState}  from 'react'
 import { InputNumber, Button} from 'antd';
 
-const TopUp = (props) =>
-{
+export default function(props){
 
     const [value, setValue] = useState(500)
 
@@ -30,4 +29,3 @@ const TopUp = (props) =>
 
 }
 
-export default TopUp 
