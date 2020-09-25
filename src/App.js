@@ -2,7 +2,6 @@ import {Login, Register, Forgot, Error, CheckRegister, CheckForgot, Home} from "
 import ProtectedRoute from "./components/ProtectedRoute"
 import {MemoryRouter,Route} from "react-router-dom"
 import React, {useState} from 'react';
-// import Home from './components/Home';
 
 import 'antd/dist/antd.css'
 import "./styles/App.scss"

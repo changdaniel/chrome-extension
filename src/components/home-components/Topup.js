@@ -20,9 +20,9 @@ export default function(props){
                 onChange={setValue}
                 />
             <div>
-            <Button type="danger" shape="round" onClick={() => props.makeDeposit(value)}>
-                Finish payment
-            </Button>
+                <Button type="danger" shape="round" onClick={() => props.makeDeposit(value)}>
+                    Finish payment
+                </Button>
             </div>
         </div>
     )

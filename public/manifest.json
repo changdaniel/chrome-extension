@@ -15,6 +15,6 @@
     "128": "favicon.png"
   },
   "permissions": [
-    "activeTab", "https://api.joincobble.com/"
+    "activeTab", "https://api.joincobble.com/", "http://localhost:3000"
   ]  
 }

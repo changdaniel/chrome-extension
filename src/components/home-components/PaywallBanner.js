@@ -19,18 +19,16 @@ export default function(props) {
           chrome.tabs.update(tab.id, {url: myNewUrl});
         });
 
-
         props.setBalance(props.balance - 25)
         props.setPaid(true)
 
       }
 
     return(
-
         <div className="row">
             <p style ={{color:"white"}}> Would you like to read this article from joincobble.com for $0.25?</p>
-                <button onClick={updateCurrentUrl} class="buy-button">Yes</button>
-                <a class="buy-button">No</a> 
+            <button onClick={updateCurrentUrl} class="buy-button">Yes</button>
+            <a class="buy-button">No</a> 
         </div>
     )
 

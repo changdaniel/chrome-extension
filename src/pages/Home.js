@@ -1,6 +1,5 @@
 import DonationBanner from '../components/home-components/DonationBanner';
 import React, {useState, useEffect} from 'react';
-import InfoBanner from '../components/home-components/InfoBanner'
 import TopUp from '../components/home-components/Topup';
 import parse from 'url-parse';
 import { Button } from 'antd';
@@ -67,15 +66,15 @@ function DefaultFooter({convertedBalance}){
   }
 
   return (
-    <div style={{width:"100%", paddingLeft:"20px", paddingRight:"20px"}}>
-        <div style={{float:"left"}}>
+    <div id="DefaultFooter">
+        <div>
           <Link to="/home/topup">Top Up</Link>
         </div>
-        <div style={{float:"right"}}>
-          <a onClick={logOut}>Log out</a>
+        <div>
+          <b>Balance: {convertedBalance}</b>
         </div>
-        <div style={{margin:"0 auto", textAlign: "center"}}>
-          <p style={{marginBottom:"0"}}>Balance: {convertedBalance}</p>
+        <div>
+          <a onClick={logOut}>Log out</a>
         </div>
     </div>
   )
@@ -202,10 +201,13 @@ export default function Home(props) {
           </Route>
 
           <Route path="/home/topup">
-            <Page>
-              <div style = {{position:"relative", minHeight:"90%"}}>
+            <Page id="Topup">
+              <div className="topupRoot">
                 <TopUp makeDeposit={(amount) => getCardPage(token, amount)}/>
-                <InfoBanner/>
+                <div className="infoBanner" >
+                  <a href="https://joincobble.com/FAQs.html" target="_blank" >Why is there a $5 minimum?</a>
+                  <a href="https://stripe.com/" target="_blank" >What is Stripe?</a>
+                </div>
               </div>
               <DefaultFooter slot="footer" {...{convertedBalance}} />
             </Page>

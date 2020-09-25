@@ -16,14 +16,14 @@ function Body(props){
     return <main className="App-body">{props.children}</main>
 }
 
-export default function Page({children}) {
+export default function Page({children,id}) {
     children = useSlot(children)
 
     return (
-        <>
+        <span id={id}>
             <Header>{children.header}</Header>
             <Body>{children.default}</Body>
             <Footer>{children.footer}</Footer>
-        </>
+        </span>
     )
 }
