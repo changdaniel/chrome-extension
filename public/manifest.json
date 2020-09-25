@@ -10,9 +10,9 @@
     "default_title": "Open the pop"
   },
   "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
+    "16": "favicon.png",
+    "48": "favicon.png",
+    "128": "favicon.png"
   },
   "permissions": [
     "activeTab", "https://api.joincobble.com/"

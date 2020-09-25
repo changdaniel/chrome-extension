@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import { Button } from 'antd';
 import '../../styles/DonationBanner.scss'
+import {useHistory} from "react-router"
 
 export default function(props) {
     const [value, setValue] = useState(props.balance > 100 ? 100: props.balance)
+    const history = useHistory()
 
     const rangeSlide = (event) => {
         setValue(event.target.value)
@@ -11,7 +13,7 @@ export default function(props) {
 
     const onClick = (event) => {
         props.makePayment(value)
-        props.setScreen()
+        history.push("/home/paid")
     }
 
     return(
@@ -20,7 +22,7 @@ export default function(props) {
             <div>
                 <span id="rangeValue">{(value/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</span>
                 <input 
-                class="range"
+                className="range"
                 type="range" 
                 name="" 
                 value={value} 

@@ -1,13 +1,24 @@
 import React from 'react';
 import { Form, Input, Button} from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined} from '@ant-design/icons';
+import api from "../../api"
+import {useHistory} from "react-router"
 
-export default function(props){
+export default function(){
+    const history = useHistory()
 
-    const onFinish = values => {
-        console.log('Received values of form: ', values);
-        props.registerRequest(values)
-      };
+    function onFinish(values){
+      api.post("/auth/register",values).then(({data:result})=>{
+        console.log(result)
+          if(!result.okay){
+            history.push({pathname:"/error",state:{message:result.message}})
+            return
+          }
+          history.push("/check-register")
+      }).catch(error=>{
+        history.push({pathname:"/error",state:{message:error.message}})
+      })
+    }
 
     return(
         <div className="signup-container">

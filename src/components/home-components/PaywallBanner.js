@@ -27,7 +27,7 @@ export default function(props) {
 
     return(
 
-        <div class="row">
+        <div className="row">
             <p style ={{color:"white"}}> Would you like to read this article from joincobble.com for $0.25?</p>
                 <button onClick={updateCurrentUrl} class="buy-button">Yes</button>
                 <a class="buy-button">No</a> 

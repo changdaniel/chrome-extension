@@ -1,159 +1,54 @@
+import {Login, Register, Forgot, Error, CheckRegister, CheckForgot, Home} from "./pages"
+import ProtectedRoute from "./components/ProtectedRoute"
+import {MemoryRouter,Route} from "react-router-dom"
 import React, {useState} from 'react';
-import Register from './components/auth-components/Signup';
-import Login from './components/auth-components/Login';
-import Forgot from './components/auth-components/Forgot'
-import Home from './components/Home';
-import Wrapper from './components/Wrapper';
-import { Button } from 'antd';
+// import Home from './components/Home';
 
+import 'antd/dist/antd.css'
 import "./styles/App.scss"
-import 'antd/dist/antd.css';
 
-const prod_endpoint = "https://api.joincobble.com/"
-const dev_endpoint = "http://localhost:5000/"
+export default function App(){
 
-const App = () => {
-
-  const [loginToken, setLoginToken] = useState(localStorage.getItem('loginToken') || 'noToken')
-  const [authenticated, setAuthenticated] = useState(localStorage.getItem('authenticated') || false)
-  const [screen, setScreen] = useState("login")
-  const [error, setError] = useState(null)
-
-  const endpoint =  dev_endpoint
-
-  const displayError = (message) => {
-
-    setError(message)
-    setScreen("error")
+  const [loginToken, setLoginToken] = useState(localStorage.getItem('loginToken'))
   
-  }
+  return (
+    <main className="App">
+      <MemoryRouter>
+        <ProtectedRoute path="/" exact>
+            <Home token={loginToken}/>
+        </ProtectedRoute>
 
-  function loginRequest(values){
+        <ProtectedRoute path="/home" >
+            <Home token={loginToken}/>
+        </ProtectedRoute>
 
-    fetch(endpoint+'auth/login', {
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(values)
-    })
-    .then(res => res.json())
-    .then((result) => {
+        <Route path="/login">
+            <Login {...{setLoginToken}} />
+        </Route>
 
-      if(result.okay)
-      {
-        setLoginToken(result.token)
-        localStorage.setItem('loginToken', result.token)
-        setAuthenticated(true)
-        localStorage.setItem('authenticated', true)
-      }
-      else
-      {
-        displayError(result.message)
-      } 
-    })
-  }
+        <Route path="/register" >
+            <Register />
+        </Route>
 
-  function registerRequest(values){
-    setScreen("check-register")
-    fetch(endpoint+'auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(values)
-    })
-    .then(res => res.json())
-    .then((result) => {
+        <Route path="/forgot">
+            <Forgot />
+        </Route>
 
-      if(result.okay)
-      {
-        setScreen("check-register")
-      }
-      else
-      {
-        displayError(result.message)
-      }
-    })  
-  }
+        <Route path="/check-register">
+            <CheckRegister />
+        </Route>
 
-  function forgotPasswordRequest(values){
-    setScreen("check-forgot")
-    console.log(values)
-    fetch(endpoint+'auth/forget_password_request', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(values)
-    })
-    .then(res => res.json())
-    .then((result) => {
+        <Route path="/check-forgot">
+            <CheckForgot />
+        </Route>
 
-      if(result.okay)
-      {
-        setScreen("check-forgot")
-      }
-      else
-      {
-        displayError(result.message)
-      }
-    })  
-  }
-
-  let ret
-
-  if(authenticated)
-  {
-    ret = <Home token = {loginToken}/>
-  }
-  else
-  {
-    switch (screen)
-    {
-      case "login":
-        ret = <Login loginRequest = {loginRequest} forgotPassword = {() => setScreen("forgot")} switchPage = {() => setScreen("register")}/> 
-        break;
-      case "register":
-        ret = <Register registerRequest = {registerRequest} switchPage = {() => setScreen("login")}/>
-        break;
-      case "forgot":
-        ret = <Forgot forgotPasswordRequest = {forgotPasswordRequest} switchPage={() => setScreen("login")}/>
-        break;
-      case "check-register":
-          ret = <Wrapper 
-                  body = {
-                      <div>
-                        <h2 style={{color:'white'}}>Check your email to verify your account.</h2>
-                        <h3>This window needs to be reopened after verification</h3>
-                      </div>
-                      }/>
-      case "check-forgot":
-          ret = <Wrapper 
-                  body = {
-                      <div>
-                        <h2 style={{color:'white'}}>Check your email to reset your password.</h2>
-                      </div>
-                      }/>
-        break;
-      case "error":
-        ret = <Wrapper
-                body = 
-                {<div>
-                    <p>{error}</p>
-                    <Button shape="round" type="danger" onClick = {() => setScreen("login")}>Go Back</Button>
-                  </div>
-                }/>
-        break;
-    }
-
-  }
-
-  return( 
-    ret
+        <Route path="/error">
+          <Error />
+        </Route>
+      </MemoryRouter>
+    </main>      
   )
-
 }
   
 
-export default App;
+
