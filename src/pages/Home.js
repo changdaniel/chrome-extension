@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import TopUp from '../components/home-components/Topup';
 import parse from 'url-parse';
 import { Button } from 'antd';
-import {useHistory} from "react-router"
+import {useHistory,useLocation} from "react-router"
 import api from "../api"
 import {Route,Link} from "react-router-dom"
 import Page from "../components/Page"
@@ -15,8 +15,17 @@ const endpoint = dev_endpoint
 
 
 function getCurrentTabUrl(callback) {
-  // chrome object doesint container tabs for some reason 
-  callback(window.location.href)
+  let chrome = window.chrome || {}
+
+  if(!chrome.tabs){
+    callback("localhost")
+    return 
+  } 
+
+  chrome.tabs.query( { active: true, currentWindow: true }, tabs =>{
+    console.log("tabs",tabs)
+    callback(tabs[0].url)
+  });
 }
 
 function openPageAndWriteToken(pageContent, token) {
@@ -27,7 +36,7 @@ function openPageAndWriteToken(pageContent, token) {
   x.document.close();
 }
 
-function getCardPage(token, amount){
+function getCardPage(token, amount, history){
   // let headers = {'Content-Type': 'multipart/form-data' }
   // let data = new FormData()
   // data.append("token",token)
@@ -53,10 +62,12 @@ function getCardPage(token, amount){
   `
   w.document.write(dom)
   w.document.close()
+  history.push("/home/message")
 }
 
 function DefaultFooter({convertedBalance}){
   const history = useHistory()
+  const location = useLocation()
 
   function logOut(){  
     localStorage.removeItem('authenticated')
@@ -65,10 +76,14 @@ function DefaultFooter({convertedBalance}){
     window.close()
   }
 
+  const nav = location.pathname != "/home/topup" ? 
+  (<Link to="/home/topup">Top Up</Link>) : 
+  (<Link to="/home">Home</Link>)
+
   return (
     <div id="DefaultFooter">
         <div>
-          <Link to="/home/topup">Top Up</Link>
+          {nav}
         </div>
         <div>
           <b>Balance: {convertedBalance}</b>
@@ -83,15 +98,28 @@ function DefaultFooter({convertedBalance}){
 export default function Home(props) {
     const history = useHistory()
     const [url, setUrl] = useState("")
-    const [balance, setBalance] = useState(0)
+    const [balance, setBalance] = useState(2000) // temparary balance
     const [token, setToken] = useState(props.token)
     const [email, setEmail] = useState("no one")
     const [partners, setPartners] = useState([])
 
-    //dependency array makes it only run once 
     useEffect(() => {
       onStart()
     },[]);
+
+    const onStart = () => {
+      getCurrentTabUrl(function(url) {
+        setUrl(url)
+        parsedURL = parse(url)
+        
+        if (parsedURL.hostname === "twitter.com")
+          history.push("/home/twitter")
+        else if(partners.includes(parsedURL.hostname))
+          history.push("/home/partner")
+        else
+          history.push("/home")
+      });
+    }
 
     function logOut(){  
       localStorage.removeItem('authenticated')
@@ -100,6 +128,7 @@ export default function Home(props) {
       window.close()
     }
 
+    //move this to donationBanner
     function makePayment(value, otherParams){
         api.post("/payments",{amount:value,...otherParams}).then(({data:result})=>{
             if(!result.okay){
@@ -110,7 +139,7 @@ export default function Home(props) {
             getUser()
             history.push("/home/paid")
         }).catch(error=>{
-          history.push({pathname:"/error",state:{message:error.message}})
+          history.push({pathname:"/error",state:{message:error.response.data.message}})
         })   
     }
   
@@ -123,7 +152,7 @@ export default function Home(props) {
           setBalance(result.user.balance)
           setEmail(result.user.email)
         }).catch(error=>{
-          history.push({pathname:"/error",state:{message:error.message}})
+          history.push({pathname:"/error",state:{message:error.response.data.message}})
         })
     }
     getUser()
@@ -136,7 +165,7 @@ export default function Home(props) {
           }
           setPartners(result.partners.donation)
         }).catch(error=>{
-          history.push({pathname:"/error",state:{message:error.message}})
+          history.push({pathname:"/error",state:{message:error.response.data.message}})
         })
     }
       
@@ -146,21 +175,6 @@ export default function Home(props) {
 
     const displayDollar = (cents) => {
       return (cents/100).toLocaleString("en-US", {style:"currency", currency:"USD"})
-    }
-
-    const onStart = () => {
-        getCurrentTabUrl(function(url) {
-          setUrl(url)
-          parsedURL = parse(url)
-          
-          if (parsedURL.hostname === "twitter.com")
-            history.push("/home/twitter")
-          else if(partners.includes(parsedURL.hostname))
-            history.push("/home/partner")
-          else
-            history.push("/home")
-
-        });
     }
 
     let parsedURL = parse(url)
@@ -177,7 +191,7 @@ export default function Home(props) {
                 <h3>Show {strippedUrl} some love!</h3>
                 <DonationBanner {...{balance}} makePayment={(value) => makePayment(value, {'type':'donation', 'identifier': url})} />
                 <p>This site is not a partner yet.</p>
-                <a target= "_blank"href="https://joincobble.com/FAQs.html">What does Cobble do with your donation?</a>
+                <a target= "_blank"href="https://joincobble.com/FAQs.html">So where does my support go?</a>
               </div>
               <DefaultFooter slot="footer" {...{convertedBalance}} />
             </Page>
@@ -196,6 +210,9 @@ export default function Home(props) {
           <Route path="/home/paid">
             <Page>
               <h2 style ={{color:"white", marginTop:"50px"}}>Thank you!</h2>
+              <Link to="/">
+                <Button size="small" type="danger" shape="round">Back</Button>
+              </Link>
               <DefaultFooter slot="footer" {...{convertedBalance}} />
             </Page>
           </Route>
@@ -203,10 +220,13 @@ export default function Home(props) {
           <Route path="/home/topup">
             <Page id="Topup">
               <div className="topupRoot">
-                <TopUp makeDeposit={(amount) => getCardPage(token, amount)}/>
+                <TopUp makeDeposit={(amount) => getCardPage(token, amount, history)}/>
                 <div className="infoBanner" >
                   <a href="https://joincobble.com/FAQs.html" target="_blank" >Why is there a $5 minimum?</a>
-                  <a href="https://stripe.com/" target="_blank" >What is Stripe?</a>
+                  <a href="https://stripe.com/" target="_blank" >
+                    Payments secured with 
+                    <img className="stripe" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe"/>
+                  </a>
                 </div>
               </div>
               <DefaultFooter slot="footer" {...{convertedBalance}} />
@@ -243,6 +263,15 @@ export default function Home(props) {
                 <p>This site is not a partner yet.</p>
                 <a target= "_blank"href="https://joincobble.com/FAQs.html">What does Cobble do with your donation?</a>
               </div>
+              <DefaultFooter slot="footer" {...{convertedBalance}} />
+            </Page>
+          </Route>
+
+          <Route path="/home/message">
+            <Page id="Message">
+              <h2>Add a Message</h2>
+              <textarea placeholder="Thank you for ...."></textarea>
+              <Link to="/"><Button size="small" type="danger" shape="round">Submit</Button></Link>
               <DefaultFooter slot="footer" {...{convertedBalance}} />
             </Page>
           </Route>

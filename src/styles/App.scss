@@ -1,8 +1,31 @@
 @import url(https://fonts.googleapis.com/css?family=Poppins);
 
-// *,a{
-//   color:white;
-// }
+// consistent button styles
+button{
+  height:40px !important;
+  padding:0px 30px !important;
+}
+
+//ant styles override 
+.ant-input{
+  background: transparent;
+  color:#fff;
+}
+.ant-input-affix-wrapper{
+  background: transparent;
+  min-height:40px;
+
+  border-bottom:3px solid #fffc;
+  border-top:1px solid #fff5;
+  border-right:1px solid #fff5;
+  border-left:1px solid #fff5;
+}
+
+.ant-input-prefix{
+  color:#fff;
+}
+
+
 
 .App {
   text-align: center;
@@ -28,6 +51,7 @@
   .App-logo {
     width: 170px;
     height: 43px;
+    cursor: pointer !important;
   }
 
 }
@@ -86,6 +110,10 @@
     display: flex;
     justify-content: space-between;
 
+    .stripe{
+      max-height:20px;
+    }
+
     *{
       max-width:12ch;
     }
@@ -99,6 +127,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+#Message{
+  textarea{
+    height:130px;
+    resize: none;
+    padding:15px;
+  }
 }
 
 

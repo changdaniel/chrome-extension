@@ -1,9 +1,10 @@
 import React from 'react'
 import {useSlot} from "../util/slot"
 import logo from "../assets/inverted-logo.png"
+import {Link} from "react-router-dom"
 
 function Header(props){
-    let fallback = <img src={logo} className="App-logo"></img>
+    let fallback = <Link to="/"><img src={logo} className="App-logo"></img></Link>
     return <header className="App-header">{props.children || fallback}</header>  
 }
 

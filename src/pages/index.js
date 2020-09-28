@@ -45,7 +45,7 @@ export function Forgot(){
           }
           history.push("check-forgot")
       }).catch(error=>{
-        history.push({pathname:"/error",state:{message:error.message}})
+        history.push({pathname:"/error",state:{message:error.response.data.message}})
       })
     }
 
@@ -85,7 +85,7 @@ export function Error(){
     <Page>
       <div>
         <p>{location.state.message}</p>
-        <Link to="/login" >
+        <Link to="/" >
           <Button shape="round" type="danger">Go Back</Button>
         </Link>
       </div>

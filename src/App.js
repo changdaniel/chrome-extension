@@ -1,3 +1,4 @@
+/*global chrome*/
 import {Login, Register, Forgot, Error, CheckRegister, CheckForgot, Home} from "./pages"
 import ProtectedRoute from "./components/ProtectedRoute"
 import {MemoryRouter,Route} from "react-router-dom"
