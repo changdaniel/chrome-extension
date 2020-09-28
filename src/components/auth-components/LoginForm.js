@@ -20,7 +20,7 @@ export default function ({setLoginToken}) {
         history.push("/")
 
       }).catch(error=>{
-        history.push({pathname:"/error",state:{message:error.message}})
+        history.push({pathname:"/error",state:{message:error.response.data.message}})
       })
 
     }

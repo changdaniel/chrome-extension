@@ -4,11 +4,15 @@ import '../../styles/DonationBanner.scss'
 import {useHistory} from "react-router"
 
 export default function(props) {
-    const [value, setValue] = useState(props.balance > 100 ? 100: props.balance)
+    const [value, setValue] = useState(props.balance > 300 ? 300: props.balance)
     const history = useHistory()
 
     const rangeSlide = (event) => {
-        setValue(event.target.value)
+        let value = event.target.value
+        if(event.target.id === "rangeValue"){
+            value = Number(value.slice(1)) * 100
+        }
+        setValue(value)
     }
 
     const onClick = (event) => {
@@ -18,16 +22,17 @@ export default function(props) {
 
     return(
         
-        <section id="slider">
+        <section id="slider" id="DonationBanner">
             <div>
-                <span id="rangeValue">{(value/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}</span>
+                <input id="rangeValue" type="text" onChange={rangeSlide} value={(value/100).toLocaleString("en-US", {style:"currency", currency:"USD"})}/>
+                
                 <input 
                 className="range"
                 type="range" 
                 name="" 
-                value={value} 
-                min="1" 
-                max={props.balance > 300? "300": props.balance.toString()}
+                min="100" 
+                max="1000"
+                defaultValue="300"
                 onChange={rangeSlide}
                 /> 
                 <div>
