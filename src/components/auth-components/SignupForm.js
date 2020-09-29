@@ -7,17 +7,34 @@ import {useHistory} from "react-router"
 export default function(){
     const history = useHistory()
 
-    function onFinish(values){
-      api.post("/auth/register",values).then(({data:result})=>{
-          if(!result.okay){
-            history.push({pathname:"/error",state:{message:result.message}})
-            return
-          }
-          history.push("/home")
-      }).catch(error=>{
-        history.push({pathname:"/error",state:{message:error.response.data.message}})
-      })
+    function onFinish(e){
+      console.log(e);
+
+
+      // api.post("/auth/register",values).then(({data:result})=>{
+      //     if(!result.okay){
+      //       history.push({pathname:"/error",state:{message:result.message}})
+      //       return
+      //     }
+      //     history.push("/home")
+      // }).catch(error=>{
+      //   history.push({pathname:"/error",state:{message:error.response.data.message}})
+      // })
     }
+
+    const emailPattern = "/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+
+    return (
+      <form onSubmit={onFinish} autocomplete="on">
+        <input type="text" placeholder="First Name" name="first_name" for="fname" required/>
+        <input type="text" placeholder="Last Name" name="last_name" for="lname" required/>
+        <input type="email" placeholder="Email" name="email" for="email" required pattern={emailPattern}/>
+        <input type="password" placeholder="Password" name="password" required/>
+        <input type="password" placeholder="Confirm Password" name="confirm_password" required/>
+
+        <button type="submit">Signup</button>
+      </form>  
+    )
 
     return(
         <div className="signup-container">
