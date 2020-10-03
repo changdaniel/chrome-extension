@@ -1,11 +1,10 @@
 /*global chrome*/
-import {Login, Register, Forgot, Error, CheckRegister, CheckForgot, Home} from "./pages"
-import ProtectedRoute from "./components/ProtectedRoute"
+import {LoginPage, SignupPage, ForgotPage, ErrorPage, CheckRegisterPage, CheckForgotPage, HomeRoute} from "../../pages"
+import {ProtectedRoute} from "../"
 import {MemoryRouter,Route} from "react-router-dom"
 import React, {useState} from 'react';
 
-import 'antd/dist/antd.css'
-import "./styles/App.scss"
+import "./App.scss"
 
 export default function App(){
 
@@ -15,35 +14,35 @@ export default function App(){
     <main className="App">
       <MemoryRouter>
         <ProtectedRoute path="/" exact>
-            <Home token={loginToken}/>
+            <HomeRoute />
         </ProtectedRoute>
-
+          
         <ProtectedRoute path="/home" >
-            <Home token={loginToken}/>
+            <HomeRoute />
         </ProtectedRoute>
 
         <Route path="/login">
-            <Login {...{setLoginToken}} />
+            <LoginPage {...{setLoginToken}} />
         </Route>
 
-        <Route path="/register" >
-            <Register />
+        <Route path="/signup" >
+            <SignupPage />
         </Route>
 
         <Route path="/forgot">
-            <Forgot />
+            <ForgotPage />
         </Route>
 
         <Route path="/check-register">
-            <CheckRegister />
+            <CheckRegisterPage />
         </Route>
 
         <Route path="/check-forgot">
-            <CheckForgot />
+            <CheckForgotPage />
         </Route>
 
         <Route path="/error">
-          <Error />
+          <ErrorPage />
         </Route>
       </MemoryRouter>
     </main>      
