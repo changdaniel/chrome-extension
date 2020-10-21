@@ -4,11 +4,18 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
+        *{
+            margin-bottom: 20px;
+        }
     }
 
-    *{
-        margin-bottom: 20px;
-    }
-    
     .input,form{width: 100%;}
+    form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
 }

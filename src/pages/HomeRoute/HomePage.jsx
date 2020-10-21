@@ -1,29 +1,27 @@
+/*global chrome*/
 import {Page,HomeFooter,InputMoney} from "../../components"
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useContext} from 'react'
 import {useHistory} from "react-router"
-import api from "../../util/api"
+import {useAxios} from "../../util"
+import {Context} from "../../components"
 
 import "./HomePage.scss"
 
 function DonationBanner(props) {
   const history = useHistory()
+  const context = useContext(Context)
+  const axios = useAxios()
   let [value, setValue] = useState(300)
 
-  function logOut(){  
-      localStorage.removeItem('authenticated')
-      localStorage.removeItem('loginToken')
-      history.push("/login")
-      window.close()
-  }
-
   function makePayment(value){
-      api.post("/payments",{amount:value}).then(({data:result})=>{
+
+      axios.post("/payments",{amount:value,type:"donation",identifier:props.url}).then(({data:result})=>{
           if(!result.okay){
             history.push({pathname:"/error",state:{message:result.message}})
             return 
           }
 
-          history.push("/home/paid")
+          history.push("/home/message")
       }).catch(error=>{
         history.push({pathname:"/error",state:{message:error.response.data.message}})
       })   
@@ -39,7 +37,7 @@ function DonationBanner(props) {
 
   const onClick = (event) => {
       makePayment(value)
-      history.push("/home/message")
+      context.dispatch({type:"SET_BALANCE",payload:context.state.balance - (value/100)})
   }
 
   return(
@@ -70,11 +68,14 @@ export default function HomePage(){
     useEffect(() => {
       getCurrentTabUrl()
     },[]);
+    
+    const prepUrl = url => url ? url.split("//")[1].split("/")[0].replace("www.","") : ""
 
     function getCurrentTabUrl() {
       let chrome = window.chrome || {}
+      //if extension is in development
       if(!chrome.tabs){
-        setUrl("localhost")
+        setUrl("http://localhost.com")
         return 
       } 
       chrome.tabs.query( { active: true, currentWindow: true }, tabs =>{
@@ -82,16 +83,14 @@ export default function HomePage(){
       });
     }
 
-    //format url here
     //check partner list and see if url exists
 
     return (
     <Page className="HomePage">
      
-        <h3>Show {url} some love!</h3>
-        <DonationBanner />
-        {/* <p>This site is not a partner yet.</p> */}
-        <a target= "_blank"href="https://joincobble.com/FAQs.html">So where does my support go?</a>
+        <h3>Show {prepUrl(url)} some love!</h3>
+        <DonationBanner url={url}/>
+        <a target= "_blank"href="https://joincobble.com/#faq">So what does cobble do with your support?</a>
       
         <HomeFooter slot="footer" />
     </Page>

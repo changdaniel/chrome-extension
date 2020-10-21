@@ -2,16 +2,19 @@ import {BsShieldLockFill as LockIcon} from "react-icons/bs"
 import {MdEmail as EmailIcon} from "react-icons/md"
 import { useHistory } from 'react-router'
 import {Link} from "react-router-dom"
-import api from "../../util/api"
-import React from 'react'
-import {Page} from "../../components"
+import {useAxios} from "../../util"
+import React,{useContext} from 'react'
+import {Page,Context} from "../../components"
 
 import "./LoginPage.scss"
 
 
-function LoginForm({setLoginToken}) {
+function LoginForm() {
     const history = useHistory()
+    const context = useContext(Context)
+    const axios = useAxios()
 
+    
     async function onFinish(e){
       e.preventDefault()
       let form = e.target
@@ -23,15 +26,15 @@ function LoginForm({setLoginToken}) {
       })
 
       //api request
-      api.post("/auth/login", values).then(({data:result})=>{
+      axios.post("/auth/login", values).then(({data:result})=>{
         if(!result.okay){
           history.push({pathname:"/error",state:{message:result.message}})
           return 
         }
-            
-        setLoginToken(result.token)
-        localStorage.setItem("loginToken",result.token)
-        history.push("/")
+
+        context.dispatch({type:"SET_TOKEN",payload:result.token})
+        localStorage.setItem("token",result.token)
+        history.push("/home")
 
       }).catch(error=>{
         history.push({pathname:"/error",state:{message:error.response.data.message}})
@@ -52,19 +55,20 @@ function LoginForm({setLoginToken}) {
             <input type="password" name="password" htmlFor="password" placeholder="Password" required/>
           </div>
 
+          <Link to="/forgot">Forgot password</Link>
+          
           <button className="primary" type="submit">Login</button>
 
-          <Link to="/forgot">Forgot password</Link>
         </form>  
     )
 
 }
 
 
-export default function LoginPage({setLoginToken}){
+export default function LoginPage(){
     return (
       <Page className="LoginPage">
-        <LoginForm {...{setLoginToken}}/>
+        <LoginForm />
         <p slot="footer">Don't have an account? <Link to="/signup">Signup</Link> </p>
       </Page>  
     )

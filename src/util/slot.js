@@ -1,4 +1,4 @@
-export function useSlot(children){
+export default function useSlot(children){
     let returnObject = {
         default:[]
     }

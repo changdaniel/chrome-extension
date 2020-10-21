@@ -1,7 +1,11 @@
-import api from "./api"
-import {useSlot} from "./slot"
+import {url,useAxios} from "./api"
+import useSlot from "./slot"
+import {reducer,defaultState} from "./reducer"
 
 export {
-    api,
-    useSlot
+    useAxios,
+    url,
+    useSlot,
+    reducer,
+    defaultState
 }

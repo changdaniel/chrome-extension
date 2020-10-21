@@ -2,7 +2,7 @@ import {BsFillPersonFill as PersonIcon,BsShieldLockFill as LockIcon} from "react
 import {MdEmail as EmailIcon} from "react-icons/md"
 import {useHistory} from "react-router"
 import {Link} from "react-router-dom"
-import api from "../../util/api"
+import {useAxios} from "../../util"
 import React from 'react'
 import {Page} from "../../components"
 
@@ -10,6 +10,7 @@ import "./SignupPage.scss"
 
 function SignupForm(){
     const history = useHistory()
+    const axios = useAxios()
 
     function onSubmit(e){
       e.persist()
@@ -34,13 +35,13 @@ function SignupForm(){
       }
 
       //api request
-      api.post("/auth/register",values).then(({data:result})=>{
+      axios.post("/auth/register",values).then(({data:result})=>{
           if(!result.okay){
             history.push({pathname:"/error",state:{message:result.message}})
             return
           }
-          localStorage.setItem("loginToken",result.token)
-          history.push("/home")
+          // localStorage.setItem("token",result.token)
+          history.push("/check-register")
       }).catch(error=>{
         history.push({pathname:"/error",state:{message:error.response.data.message}})
       })

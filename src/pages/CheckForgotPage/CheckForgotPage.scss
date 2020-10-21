@@ -1,5 +1,8 @@
 .CheckForgotPage{
-    .title{
-        color:white;
+    .Body{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 }

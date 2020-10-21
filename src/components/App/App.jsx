@@ -1,16 +1,18 @@
-/*global chrome*/
 import {LoginPage, SignupPage, ForgotPage, ErrorPage, CheckRegisterPage, CheckForgotPage, HomeRoute} from "../../pages"
 import {ProtectedRoute} from "../"
 import {MemoryRouter,Route} from "react-router-dom"
-import React, {useState} from 'react';
+import React, {createContext,useReducer} from 'react';
+import {reducer,defaultState} from "../../util"
 
 import "./App.scss"
 
-export default function App(){
+export const Context = createContext()
 
-  const [loginToken, setLoginToken] = useState(localStorage.getItem('loginToken'))
-  
+export default function App(){
+  const [state,dispatch] = useReducer(reducer,defaultState)
+
   return (
+    <Context.Provider value={{state,dispatch}}>
     <main className="App">
       <MemoryRouter>
         <ProtectedRoute path="/" exact>
@@ -22,7 +24,7 @@ export default function App(){
         </ProtectedRoute>
 
         <Route path="/login">
-            <LoginPage {...{setLoginToken}} />
+            <LoginPage />
         </Route>
 
         <Route path="/signup" >
@@ -45,7 +47,8 @@ export default function App(){
           <ErrorPage />
         </Route>
       </MemoryRouter>
-    </main>      
+    </main>  
+    </Context.Provider>    
   )
 }
   

@@ -1,37 +1,44 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import {useHistory,useLocation} from "react-router"
 import {Link} from "react-router-dom"
-import api from "../../util/api"
+import {Context} from "../"
+import {useAxios} from "../../util"
 
 import "./HomeFooter.scss"
 
 export default function DefaultFooter(){
     const history = useHistory()
     const location = useLocation()
-    let [balance,setBalance] = useState(20)
+    const context = useContext(Context)
+    const axios = useAxios()
 
     useEffect(()=>{
-      // getUser()
-    },[])
+      if(!context.state.token) return 
+      // this flag checks if we have already fetched the balance
+      if(context.state.gotBalance) return 
 
-    function logOut(){  
-      localStorage.removeItem('authenticated')
-      localStorage.removeItem('loginToken')
-      history.push("/login")
-      window.close()
-    }
+      context.dispatch({type:"SET_GOT_BALANCE",payload:true})
+      // get the users active balance
+      getBalance()
 
-    //get users balance
-    function getUser(){
-      api.get("/users").then(({data:result})=>{
+    })
+
+    // get the users current balance when they login
+    function getBalance(){
+      axios.get("/users").then(({data:result})=>{
         if(!result.okay){
-          logOut()
+          history.push({pathname:"/error",state:{message:result.message}})
           return
         }
-        //setBalance(result.user.balance)
+        context.dispatch({type:"SET_BALANCE",payload:(result.user.balance/100)})
       }).catch(error=>{
         history.push({pathname:"/error",state:{message:error.response.data.message}})
       })
+    }
+
+    function logOut(){  
+      localStorage.removeItem('token')
+      history.push("/login")
     }
   
     const nav = location.pathname != "/home/deposit" ? 
@@ -44,7 +51,7 @@ export default function DefaultFooter(){
             {nav}
           </div>
           <div>
-            <b>Balance: ${balance}</b>
+            <b>Balance: ${context.state.balance.toFixed(2)}</b>
           </div>
           <div>
             <a onClick={logOut}>Log out</a>

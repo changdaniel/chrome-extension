@@ -10,12 +10,10 @@ export default function ErrorPage(){
   
     return (
       <Page className="ErrorPage">
-        <div>
           <p>{location.state.message}</p>
           <Link to="/" >
             <button className="primary">Go Back</button>
           </Link>
-        </div>
       </Page>
     )
   }

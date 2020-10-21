@@ -1,13 +1,14 @@
 import {MdEmail as EmailIcon} from "react-icons/md"
 import {useHistory} from "react-router"
 import {Page} from "../../components"
-import api from "../../util/api"
+import {useAxios} from "../../util"
 import React from 'react'
 import {Link} from "react-router-dom"
 import "./ForgotPage.scss"
 
 export default function ForgotPage(){
     const history = useHistory()
+    const axios = useAxios()
 
     function onFinish(e){
       e.preventDefault()
@@ -19,7 +20,7 @@ export default function ForgotPage(){
         values[input.name] = input.value
       })
 
-      api.post("/auth/forget_password_request", values).then(({data:result})=>{
+      axios.post("/auth/forget_password_request", values).then(({data:result})=>{
           if(!result.okay){
             history.push({pathname:"/error",state:{message:result.message}})
             return 

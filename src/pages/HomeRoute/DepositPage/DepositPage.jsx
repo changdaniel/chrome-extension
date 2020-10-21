@@ -1,6 +1,6 @@
-import {Page,InputMoney,HomeFooter} from "../../../components"
-import {useHistory} from "react-router"
-import React,{useState} from 'react'
+import {Page,InputMoney,HomeFooter,Context} from "../../../components"
+import React,{useState,useContext} from 'react'
+import {url} from "../../../util"
 
 import "./DepositPage.scss"
 
@@ -10,7 +10,7 @@ function TopUp(props){
 
     return(
         <div className="TopUp">
-            <h3 style={{color:"white", marginBottom:"20px"}}>
+            <h3>
                 How much would you like to deposit?
             </h3>
             <InputMoney onChange={setValue} min={500} default={defaultValue}/>
@@ -22,20 +22,18 @@ function TopUp(props){
 }
 
 export default function DepositPage(){
-    const history = useHistory()
-    const prod_endpoint = "https://api.joincobble.com/"
-    const dev_endpoint = "http://localhost:5000/"
-    const endpoint = dev_endpoint
+    let context = useContext(Context)
 
     //make this a api request
     function getCardPage(amount){
-      
+      context.dispatch({type:"SET_BALANCE",payload:context.state.balance + (amount/100)})
+
       let w = window.open();
-      let token = localStorage.getItem("loginToken")
+      let token = localStorage.getItem("token")
 
       let dom = `
         <p>Loading...</p>
-        <form action="${endpoint}/deposit/card" method="POST">
+        <form action="${url}/deposit/card" method="POST">
           <input type="hidden" name="token" value="${token}"/>
           <input type="hidden" name="amount" value="${amount}"/>
         </form>
@@ -50,7 +48,7 @@ export default function DepositPage(){
         <div className="topupRoot">
           <TopUp makeDeposit={(amount) => getCardPage(amount)}/>
           <div className="infoBanner" >
-            <a href="https://joincobble.com/FAQs.html" target="_blank" >Why is there a $5 minimum?</a>
+            <a href="https://joincobble.com/#faq" target="_blank" >Why is there a $5 minimum?</a>
             <a href="https://stripe.com/" target="_blank" >
               Payments secured with 
               <img className="stripe" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe"/>
