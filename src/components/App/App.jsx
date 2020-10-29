@@ -1,4 +1,5 @@
-import {LoginPage, SignupPage, ForgotPage, ErrorPage, CheckRegisterPage, CheckForgotPage, HomeRoute} from "../../pages"
+import {LoginPage, SignupPage, ForgotPage, ErrorPage, 
+CheckRegisterPage, CheckForgotPage,ContactPage, HomeRoute} from "../../pages"
 import {ProtectedRoute} from "../"
 import {MemoryRouter,Route} from "react-router-dom"
 import React, {createContext,useReducer} from 'react';
@@ -41,6 +42,10 @@ export default function App(){
 
         <Route path="/check-forgot">
             <CheckForgotPage />
+        </Route>
+
+        <Route path="/contact">
+            <ContactPage />
         </Route>
 
         <Route path="/error">

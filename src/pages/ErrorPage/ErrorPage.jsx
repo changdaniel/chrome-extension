@@ -12,7 +12,7 @@ export default function ErrorPage(){
       <Page className="ErrorPage">
           <p>{location.state.message}</p>
           <Link to="/" >
-            <button className="primary">Go Back</button>
+            <button className="primary">Go back</button>
           </Link>
       </Page>
     )

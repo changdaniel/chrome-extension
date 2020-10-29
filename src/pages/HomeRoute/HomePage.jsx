@@ -21,7 +21,7 @@ function DonationBanner(props) {
             return 
           }
 
-          history.push("/home/message")
+          history.push("/home/paid")
       }).catch(error=>{
         history.push({pathname:"/error",state:{message:error.response.data.message}})
       })   
@@ -61,7 +61,6 @@ function DonationBanner(props) {
 
 }
 
-
 export default function HomePage(){
     let [url,setUrl] = useState("")
 
@@ -84,13 +83,15 @@ export default function HomePage(){
     }
 
     //check partner list and see if url exists
+    let partner = false
 
     return (
     <Page className="HomePage">
      
         <h3>Show {prepUrl(url)} some love!</h3>
+        <p className="partnerStatus">{!partner && "This site is not a Cobble partner yet."}</p>
         <DonationBanner url={url}/>
-        <a target= "_blank"href="https://joincobble.com/#faq">So what does cobble do with your support?</a>
+        <a target= "_blank"href="https://joincobble.com/?faqi=1&scrollto=faq">So what does Cobble do with your support?</a>
       
         <HomeFooter slot="footer" />
     </Page>

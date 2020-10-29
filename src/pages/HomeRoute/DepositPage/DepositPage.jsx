@@ -11,11 +11,11 @@ function TopUp(props){
     return(
         <div className="TopUp">
             <h3>
-                How much would you like to deposit?
+                How much would you like to increase your balance by?
             </h3>
             <InputMoney onChange={setValue} min={500} default={defaultValue}/>
             <div>
-                <button className="primary" onClick={() => props.makeDeposit(value)}>Make Deposit</button>
+                <button className="primary" onClick={() => props.makeDeposit(value)}>Increase balance</button>
             </div>
         </div>
     )
@@ -45,15 +45,13 @@ export default function DepositPage(){
 
     return (
       <Page className="DepositPage">
-        <div className="topupRoot">
-          <TopUp makeDeposit={(amount) => getCardPage(amount)}/>
-          <div className="infoBanner" >
-            <a href="https://joincobble.com/#faq" target="_blank" >Why is there a $5 minimum?</a>
-            <a href="https://stripe.com/" target="_blank" >
-              Payments secured with 
-              <img className="stripe" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe"/>
-            </a>
-          </div>
+        <TopUp makeDeposit={(amount) => getCardPage(amount)}/>
+        <div className="infoBanner" >
+          <a href="https://joincobble.com/?faqi=2&scrollto=faq" target="_blank" >Why is there a $5 minimum?</a>
+          <a href="https://stripe.com/" target="_blank" >
+            Payments secured with 
+            <img className="stripe" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe"/>
+          </a>
         </div>
         <HomeFooter slot="footer" />
       </Page>

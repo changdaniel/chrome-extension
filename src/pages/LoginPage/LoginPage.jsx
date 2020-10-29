@@ -69,7 +69,7 @@ export default function LoginPage(){
     return (
       <Page className="LoginPage">
         <LoginForm />
-        <p slot="footer">Don't have an account? <Link to="/signup">Signup</Link> </p>
+        <p slot="footer">Don't have an account? <Link to="/signup">Sign up</Link> </p>
       </Page>  
     )
 }

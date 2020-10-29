@@ -42,7 +42,7 @@ export default function DefaultFooter(){
     }
   
     const nav = location.pathname != "/home/deposit" ? 
-    (<Link to="/home/deposit">Deposit</Link>) : 
+    (<Link to="/home/deposit">Balance</Link>) : 
     (<Link to="/home">Home</Link>)
   
     return (

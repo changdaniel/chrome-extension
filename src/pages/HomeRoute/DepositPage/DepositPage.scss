@@ -1,10 +1,18 @@
 .DepositPage{
 
+    .Body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
     .TopUp{
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        text-align: center;
 
         .InputMoney{
             width: 100px;
@@ -12,23 +20,19 @@
         }
     }
 
-    .topupRoot{
-        position:relative; 
-        min-height:90%;
-    }
-    
     .infoBanner{
         width:100%; 
-        position:absolute;
-        bottom:0px;
-        word-wrap:break-word;
-
         display: flex;
         justify-content: space-between;
+        margin-top: 10px;
 
         .stripe{
-            height: 24px;
-            padding: 3px 0 0 5px;
+            min-height: 18px;
+            height: 18px;
+            box-sizing: content-box;
+            position: relative;
+            top: 4px;
+            left: 5px;
         }
 
         a{
