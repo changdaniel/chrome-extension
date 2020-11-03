@@ -63,10 +63,17 @@ function DonationBanner(props) {
 
 export default function HomePage(){
     let [url,setUrl] = useState("")
+    let [partner,setPartner] = useState(false)
+    const axios = useAxios()
 
     useEffect(() => {
-      getCurrentTabUrl()
+      getCurrentTabUrl() 
     },[]);
+
+    useEffect(()=>{
+      if(!url) return 
+      getPartners()
+    },[url])
     
     const prepUrl = url => url ? url.split("//")[1].split("/")[0].replace("www.","") : ""
 
@@ -82,14 +89,19 @@ export default function HomePage(){
       });
     }
 
-    //check partner list and see if url exists
-    let partner = false
+    //make this a post with just one url 
+    function getPartners(){
+      axios.get("/partners").then(results=>{
+        let partnerBool = results.data.partners.partners.donation.includes(url)
+        setPartner(partnerBool)
+      })
+    }
 
     return (
     <Page className="HomePage">
      
         <h3>Show {prepUrl(url)} some love!</h3>
-        <p className="partnerStatus">{!partner && "This site is not a Cobble partner yet."}</p>
+        <p className="partnerStatus">{!partner ? "This site is not a Cobble partner yet." : "This site is a partner."}</p>
         <DonationBanner url={url}/>
         <a target= "_blank"href="https://joincobble.com/?faqi=1&scrollto=faq">So what does Cobble do with your support?</a>
       
