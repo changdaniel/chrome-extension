@@ -23,7 +23,8 @@
     .infoBanner{
         width:100%; 
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+        align-items: center;
         margin-top: 10px;
 
         .stripe{
@@ -35,12 +36,10 @@
             left: 5px;
         }
 
-        a{
-            opacity: .5;
-        }
-
-        *{
-            max-width:15ch;
+        .smallGray{
+            transform:scale(.8);
+            color:#bbb;
+            margin: 0;
         }
     }
 }

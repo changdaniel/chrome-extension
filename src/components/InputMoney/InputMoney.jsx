@@ -21,7 +21,7 @@ export default function InputMoney(props) {
     return (
         <div className='InputMoney'>
             <BiDollar></BiDollar>
-            <input onChange={onChange} type="number"  placeholder="3.00" value={money}/>
+            <input onChange={onChange} type="number"  placeholder="3.00" value={money} min={props.min/100 || 0}/>
         </div>
     )
 }

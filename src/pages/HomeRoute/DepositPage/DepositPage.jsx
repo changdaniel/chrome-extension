@@ -5,13 +5,13 @@ import {url} from "../../../util"
 import "./DepositPage.scss"
 
 function TopUp(props){
-    let defaultValue = 500
+    let defaultValue = 1000
     const [value, setValue] = useState(defaultValue)
 
     return(
         <div className="TopUp">
             <h3>
-                How much would you like to increase your balance by?
+                Increase balance by:
             </h3>
             <InputMoney onChange={setValue} min={500} default={defaultValue}/>
             <div>
@@ -47,8 +47,7 @@ export default function DepositPage(){
       <Page className="DepositPage">
         <TopUp makeDeposit={(amount) => getCardPage(amount)}/>
         <div className="infoBanner" >
-          <a href="https://joincobble.com/?faqi=2&scrollto=faq" target="_blank" >Why is there a $5 minimum?</a>
-          <a href="https://stripe.com/" target="_blank" >
+          <a className="smallGray" href="https://stripe.com/" target="_blank" >
             Payments secured with 
             <img className="stripe" src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe"/>
           </a>

@@ -41,14 +41,14 @@ export default function DefaultFooter(){
       history.push("/login")
     }
   
-    const nav = location.pathname != "/home/deposit" ? 
-    (<Link to="/home/deposit">Balance</Link>) : 
+    const accountToggle = location.pathname != "/home/deposit" ? 
+    (<Link to="/home/deposit">Account</Link>) : 
     (<Link to="/home">Home</Link>)
   
     return (
       <div className="HomeFooter">
           <div>
-            {nav}
+            {accountToggle}
           </div>
           <div>
             <b>Balance: ${context.state.balance.toFixed(2)}</b>

@@ -75,7 +75,7 @@ function SignupForm(){
           <input type="password" placeholder="Confirm Pass..." name="confirm_password" required/>
         </div>
 
-        <button className="primary" onClick={onSubmit}>Signup</button>
+        <button className="primary" onClick={onSubmit}>Sign up</button>
       </form>  
     )
 
@@ -85,7 +85,7 @@ export default function SignupPage(){
     return (
       <Page className="SignupPage">
         <SignupForm />
-        <p slot="footer">Already have an account? <Link to="/login">Login</Link></p>
+        <p slot="footer">Already have an account? <Link to="/login">Log in</Link></p>
       </Page>
     )
   }

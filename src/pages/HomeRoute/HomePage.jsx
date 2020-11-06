@@ -101,9 +101,9 @@ export default function HomePage(){
     <Page className="HomePage">
      
         <h3>Show {prepUrl(url)} some love!</h3>
-        <p className="partnerStatus">{!partner ? "This site is not a Cobble partner yet." : "This site is a partner."}</p>
         <DonationBanner url={url}/>
-        <a target= "_blank"href="https://joincobble.com/?faqi=1&scrollto=faq">So what does Cobble do with your support?</a>
+        <p className="smallGray">{!partner ? "This site is not a Cobble partner yet." : "This site is a partner."}</p>
+        <a className="smallGray" target= "_blank"href="https://joincobble.com/?faqi=1&scrollto=faq">So what does Cobble do with your support?</a>
       
         <HomeFooter slot="footer" />
     </Page>

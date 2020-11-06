@@ -24,20 +24,10 @@ export function useAxios(){
     timeout: 10000,
     headers: {
       authorization:context.state.token,
-      'Access-Control-Allow-Origin': '*',
-      crossdomain: true
+      crossDomain: true,
+      contentType: 'application/json; charset=utf-8'
     }
   });
-
-  // api.interceptors.request.use(request => {
-  //   console.log('Starting Request', JSON.stringify(request, null, 2))
-  //   return request
-  // })
-  
-  // api.interceptors.response.use(response => {
-  //   console.log('Response:', JSON.stringify(response, null, 2))
-  //   return response
-  // })
 
   return api
 }

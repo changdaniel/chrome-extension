@@ -10,7 +10,8 @@ export default function ErrorPage(){
   
     return (
       <Page className="ErrorPage">
-          <p>{location.state.message}</p>
+          <h1>Error</h1>
+          <p>{location.state.message || "A server error has occurred. If this persists please contact us at hello@joincobble.com"}</p>
           <Link to="/" >
             <button className="primary">Go back</button>
           </Link>
