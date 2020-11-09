@@ -20,7 +20,7 @@ export default function ForgotPage(){
         values[input.name] = input.value
       })
 
-      axios.post("/auth/forget_password_request", values).then(({data:result})=>{
+      axios.post("/users/forgot_password", values).then(({data:result})=>{
           if(!result.okay){
             history.push({pathname:"/error",state:{message:result.message}})
             return 

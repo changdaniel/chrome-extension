@@ -33,7 +33,7 @@ export default function DepositPage(){
 
       let dom = `
         <p>Loading...</p>
-        <form action="${url}/deposit/card" method="POST">
+        <form action="${url}/users/deposit" method="POST">
           <input type="hidden" name="token" value="${token}"/>
           <input type="hidden" name="amount" value="${amount}"/>
         </form>

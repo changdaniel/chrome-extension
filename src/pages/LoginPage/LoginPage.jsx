@@ -26,7 +26,7 @@ function LoginForm() {
       })
 
       //api request
-      axios.post("/auth/login", values).then(({data:result})=>{
+      axios.post("/users/login", values).then(({data:result})=>{
         if(!result.okay){
           history.push({pathname:"/error",state:{message:result.message}})
           return 

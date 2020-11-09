@@ -35,7 +35,7 @@ function SignupForm(){
       }
 
       //api request
-      axios.post("/auth/register",values).then(({data:result})=>{
+      axios.post("/users",values).then(({data:result})=>{
           if(!result.okay){
             history.push({pathname:"/error",state:{message:result.message}})
             return

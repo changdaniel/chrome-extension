@@ -15,7 +15,7 @@ function DonationBanner(props) {
 
   function makePayment(value){
 
-      axios.post("/payments",{amount:value,type:"donation",identifier:props.url}).then(({data:result})=>{
+      axios.post("/users/payments",{amount:value,type:"donation",identifier:props.url}).then(({data:result})=>{
           if(!result.okay){
             history.push({pathname:"/error",state:{message:result.message}})
             return 
@@ -92,7 +92,7 @@ export default function HomePage(){
     //make this a post with just one url 
     function getPartners(){
       axios.get("/partners").then(results=>{
-        let partnerBool = results.data.partners.partners.donation.includes(url)
+        let partnerBool = results.data.partners.includes(url)
         setPartner(partnerBool)
       })
     }

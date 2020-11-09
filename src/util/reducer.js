@@ -1,7 +1,7 @@
 export const defaultState = {
     balance:20,
     gotBalance:false,
-    token:""
+    token:window.localStorage.getItem("token")
 }
 
 export function reducer(state=defaultState,action){
