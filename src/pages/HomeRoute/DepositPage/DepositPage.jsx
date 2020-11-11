@@ -1,6 +1,6 @@
 import {Page,InputMoney,HomeFooter,Context} from "../../../components"
 import React,{useState,useContext} from 'react'
-import {url} from "../../../util"
+import {config} from "../../../util"
 
 import "./DepositPage.scss"
 
@@ -24,23 +24,14 @@ function TopUp(props){
 export default function DepositPage(){
     let context = useContext(Context)
 
-    //make this a api request
     function getCardPage(amount){
       context.dispatch({type:"SET_BALANCE",payload:context.state.balance + (amount/100)})
-
-      let w = window.open();
       let token = localStorage.getItem("token")
 
-      let dom = `
-        <p>Loading...</p>
-        <form action="${url}/users/deposit" method="POST">
-          <input type="hidden" name="token" value="${token}"/>
-          <input type="hidden" name="amount" value="${amount}"/>
-        </form>
-        <script>document.querySelector("form").submit()</script>    
-      `
-      w.document.write(dom)
-      w.document.close()
+      let a = document.createElement("a")
+      a.href = config.websiteUrl + `/payments/${amount}?token=${token}`
+      a.target = "_blank"
+      a.click()    
     }
 
     return (
