@@ -1,0 +1,15 @@
+.CheckRegisterPage{
+    .Body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        *{text-align: center;}
+    } 
+
+    .gray{
+        color: #bbb;
+        transform: scale(.9);
+    }
+}

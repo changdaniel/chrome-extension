@@ -1,0 +1,45 @@
+.DepositPage{
+
+    .Body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .TopUp{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        .InputMoney{
+            width: 100px;
+            margin-bottom: 20px;
+        }
+    }
+
+    .infoBanner{
+        width:100%; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+
+        .stripe{
+            min-height: 18px;
+            height: 18px;
+            box-sizing: content-box;
+            position: relative;
+            top: 4px;
+            left: 5px;
+        }
+
+        .smallGray{
+            transform:scale(.8);
+            color:#bbb;
+            margin: 0;
+        }
+    }
+}
