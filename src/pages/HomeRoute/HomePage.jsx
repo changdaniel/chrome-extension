@@ -4,6 +4,8 @@ import React,{useEffect,useState,useContext} from 'react'
 import {useHistory} from "react-router"
 import {useAxios} from "../../util"
 import {Context} from "../../components"
+import nonpartnerLogo from "../../assets/nonpartner_logo.png"
+import partnerLogo from "../../assets/partner_logo.png"
 
 import "./HomePage.scss"
 
@@ -65,6 +67,7 @@ export default function HomePage(){
     let [url,setUrl] = useState("")
     let [partner,setPartner] = useState(false)
     const axios = useAxios()
+    const prepUrl = url => url ? url.split("//")[1].split("/")[0].replace("www.","") : ""
 
     useEffect(() => {
       getCurrentTabUrl() 
@@ -74,13 +77,19 @@ export default function HomePage(){
       if(!url) return 
       getPartners()
     },[url])
-    
-    const prepUrl = url => url ? url.split("//")[1].split("/")[0].replace("www.","") : ""
+
+    if(chrome["browserAction"]){
+      if(!partner){
+        chrome.browserAction.setIcon({path: nonpartnerLogo});
+      }else{
+        chrome.browserAction.setIcon({path: partnerLogo});
+      }
+    }
 
     function getCurrentTabUrl() {
-      let chrome = window.chrome || {}
+      let chrome = window.chrome 
       //if extension is in development
-      if(!chrome.tabs){
+      if(!chrome["tabs"]){
         setUrl("http://localhost.com")
         return 
       } 
@@ -102,8 +111,8 @@ export default function HomePage(){
      
         <h3>Show {prepUrl(url)} some love!</h3>
         <DonationBanner url={url}/>
-        <p className="smallGray">{!partner ? "This site is not a Cobble partner yet." : "This site is a partner."}</p>
-        <a className="smallGray" target= "_blank"href="https://joincobble.com/?faqi=1&scrollto=faq">So what does Cobble do with your support?</a>
+        <p className="smallGray">{!partner ? "This site is not a Cobble partner yet." : ""}</p>
+        <a className="smallGray" target= "_blank"href="https://joincobble.com/?faqi=1&scrollto=faq">{!partner ? "So what does Cobble do with your support?" : ""}</a>
       
         <HomeFooter slot="footer" />
     </Page>
