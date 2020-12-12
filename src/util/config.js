@@ -7,7 +7,7 @@ let config = {
     },
     production:{
         backendUrl:"https://api.joincobble.com",
-        websiteUrl:"https://joincobble.com/"
+        websiteUrl:"https://joincobble.com"
     }
 }
 
