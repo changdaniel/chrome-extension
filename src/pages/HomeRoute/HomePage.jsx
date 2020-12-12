@@ -38,8 +38,13 @@ function DonationBanner(props) {
   }
 
   const onClick = (event) => {
+      if(!context.state.user.card){
+        history.push("/home/deposit")
+        return 
+      }
+
       makePayment(value)
-      context.dispatch({type:"SET_BALANCE",payload:context.state.balance - (value/100)})
+      context.dispatch({type:"SET_BALANCE",payload:context.state.user.balance - value})
   }
 
   return(
@@ -101,6 +106,7 @@ export default function HomePage(){
     //make this a post with just one url 
     function getPartners(){
       axios.get("/partners").then(results=>{
+        console.log(results.data)
         let partnerBool = results.data.partners.includes(url)
         setPartner(partnerBool)
       })

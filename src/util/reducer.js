@@ -1,15 +1,23 @@
 export const defaultState = {
-    balance:20,
     gotBalance:false,
-    token:window.localStorage.getItem("token")
+    token:window.localStorage.getItem("token"),
+    user:false
 }
 
 export function reducer(state=defaultState,action){
     switch(action.type){
+        case "SET_USER":
+            return {
+                ...state,
+                user:action.payload
+            }
         case "SET_BALANCE":
             return {
                 ...state,
-                balance:action.payload
+                user:{
+                    ...state.user,
+                    balance:action.payload
+                }
             }
         case "SET_TOKEN":
             return {

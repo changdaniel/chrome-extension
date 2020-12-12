@@ -15,22 +15,19 @@ export default function DefaultFooter(){
     useEffect(()=>{
       if(!context.state.token) return 
       // this flag checks if we have already fetched the balance
-      if(context.state.gotBalance) return 
+      // if(context.state.gotBalance) return 
 
       context.dispatch({type:"SET_GOT_BALANCE",payload:true})
       // get the users active balance
-      getBalance()
+      getUser()
 
-    })
+    },[])
 
-    // get the users current balance when they login
-    function getBalance(){
-      axios.get("/users").then(({data:result})=>{
-        if(!result.okay){
-          history.push({pathname:"/error",state:{message:result.message}})
-          return
-        }
-        context.dispatch({type:"SET_BALANCE",payload:(result.user.balance/100)})
+    // get user information 
+    function getUser(){
+      axios.get("/users").then(({data})=>{
+        console.log(data.user)
+        context.dispatch({type:"SET_USER",payload:data.user})
       }).catch(error=>{
         history.push({pathname:"/error",state:{message:error.response.data.message}})
       })
@@ -51,7 +48,7 @@ export default function DefaultFooter(){
             {accountToggle}
           </div>
           <div>
-            <b>Balance: ${context.state.balance.toFixed(2)}</b>
+            <b>Total: ${(context.state.user.balance/100).toFixed(2)}</b>
           </div>
           <div>
             <a onClick={logOut}>Log out</a>

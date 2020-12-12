@@ -1,24 +1,9 @@
 .DepositPage{
 
     .Body{
-        display: flex;
         flex-direction: column;
-        align-items: center;
     }
-
-    .TopUp{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-
-        .InputMoney{
-            width: 100px;
-            margin-bottom: 20px;
-        }
-    }
-
+  
     .infoBanner{
         width:100%; 
         display: flex;
