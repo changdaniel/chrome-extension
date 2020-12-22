@@ -1,0 +1,27 @@
+name: publish extension
+
+on:
+
+  push:
+    branches: [ sssss ]
+  pull_request:
+    branches: [ ssss ]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Chrome Extension upload & publish
+        uses: Passiverecords/chrome-extension-upload-action@1.4.1
+        with:
+          with:
+            refresh-token: ''
+            client-id: ''
+            client-secret: ''
+            file-name: './extension.zip'
+            app-id: ''
+            publish: true
+
+ 
