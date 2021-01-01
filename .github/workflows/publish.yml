@@ -1,11 +1,10 @@
 name: publish extension
 
 on:
-
   push:
-    branches: [ sssss ]
+    branches: [ master ]
   pull_request:
-    branches: [ ssss ]
+    branches: [ master ]
 
 
 jobs:
@@ -15,6 +14,14 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - uses: actions/setup-node@v2.1.4
+      - run: node ./scripts/update_manifest_version.js
+        shell: bash
+      - run: git add .
+        shell: bash
+      - run: git commit -m "update manifest version"
+        shell: bash
+      - run: git push origin master 
+        shell: bash
       - run: npm i
         shell: bash
       - run: CI=false REACT_APP_ENV=production npm run build
