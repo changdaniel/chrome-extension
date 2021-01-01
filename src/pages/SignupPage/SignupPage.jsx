@@ -36,12 +36,7 @@ function SignupForm(){
 
       //api request
       axios.post("/users",values).then(({data:result})=>{
-          if(!result.okay){
-            history.push({pathname:"/error",state:{message:result.message}})
-            return
-          }
-          // localStorage.setItem("token",result.token)
-          history.push("/check-register")
+        history.push("/check-register")
       }).catch(error=>{
         history.push({pathname:"/error",state:{message:error.response.data.message}})
       })

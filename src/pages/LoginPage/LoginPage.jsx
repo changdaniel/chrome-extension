@@ -27,11 +27,6 @@ function LoginForm() {
 
       //api request
       axios.post("/users/login", values).then(({data:result})=>{
-        if(!result.okay){
-          history.push({pathname:"/error",state:{message:result.message}})
-          return 
-        }
-
         context.dispatch({type:"SET_TOKEN",payload:result.token})
         localStorage.setItem("token",result.token)
         history.push("/home")

@@ -18,11 +18,6 @@ function DonationBanner(props) {
   function makePayment(value){
 
       axios.post("/users/payments",{amount:value,type:"donation",identifier:props.url}).then(({data:result})=>{
-          if(!result.okay){
-            history.push({pathname:"/error",state:{message:result.message}})
-            return 
-          }
-
           history.push("/home/paid")
       }).catch(error=>{
         history.push({pathname:"/error",state:{message:error.response.data.message}})
@@ -44,7 +39,7 @@ function DonationBanner(props) {
       }
 
       makePayment(value)
-      context.dispatch({type:"SET_BALANCE",payload:context.state.user.balance - value})
+      // context.dispatch({type:"SET_BALANCE",payload:context.state.user.balance + value})
   }
 
   return(
@@ -118,7 +113,7 @@ export default function HomePage(){
         <h3>Show {prepUrl(url)} some love!</h3>
         <DonationBanner url={url}/>
         <p className="smallGray">{!partner ? "This site is not a Cobble partner yet." : ""}</p>
-        <a className="smallGray" target= "_blank"href="https://joincobble.com/?faqi=1&scrollto=faq">{!partner ? "So what does Cobble do with your support?" : ""}</a>
+        <a className="smallGray" target= "_blank"href="https://joincobble.com/?faqi=0&scrollto=faq">{!partner ? "So what does Cobble do with your support?" : ""}</a>
       
         <HomeFooter slot="footer" />
     </Page>
