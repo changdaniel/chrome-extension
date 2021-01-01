@@ -20,15 +20,14 @@ export default function DefaultFooter(){
       context.dispatch({type:"SET_GOT_BALANCE",payload:true})
       // get the users active balance
       getUser()
-
     },[])
 
     // get user information 
     function getUser(){
       axios.get("/users").then(({data})=>{
-        console.log(data.user)
         context.dispatch({type:"SET_USER",payload:data.user})
       }).catch(error=>{
+        localStorage.removeItem('token')
         history.push({pathname:"/error",state:{message:error.response.data.message}})
       })
     }
