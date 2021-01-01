@@ -21,10 +21,6 @@ export default function ForgotPage(){
       })
 
       axios.post("/users/forgot_password", values).then(({data:result})=>{
-          if(!result.okay){
-            history.push({pathname:"/error",state:{message:result.message}})
-            return 
-          }
           history.push("check-forgot")
       }).catch(error=>{
         history.push({pathname:"/error",state:{message:error.response.data.message}})

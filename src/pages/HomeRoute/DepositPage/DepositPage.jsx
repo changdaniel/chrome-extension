@@ -4,39 +4,21 @@ import {config} from "../../../util"
 
 import "./DepositPage.scss"
 
-function TopUp(props){
-    let defaultValue = 1000
-    const [value, setValue] = useState(defaultValue)
 
-    return(
-        <div className="TopUp">
-            <h3>
-                Increase balance by:
-            </h3>
-            <InputMoney onChange={setValue} min={500} default={defaultValue}/>
-            <div>
-                <button className="primary" onClick={() => props.makeDeposit(value)}>Increase balance</button>
-            </div>
-        </div>
-    )
-}
 
 export default function DepositPage(){
     let context = useContext(Context)
-
-    function getCardPage(amount){
-      context.dispatch({type:"SET_BALANCE",payload:context.state.balance + (amount/100)})
-      let token = localStorage.getItem("token")
-
-      let a = document.createElement("a")
-      a.href = config.websiteUrl + `/payments/${amount}?token=${token}`
-      a.target = "_blank"
-      a.click()    
-    }
+    let card = context.state.user.card
+    
 
     return (
       <Page className="DepositPage">
-        <TopUp makeDeposit={(amount) => getCardPage(amount)}/>
+
+        <h3>{!card ? "Please add a card to start" : "Your account is already linked to a card"}</h3>
+        <a href={config.websiteUrl + `/account/card?token=${context.state.token}`} target="_blank">
+        <button className="primary">{!card ? "Add Card" : "Change card"}</button>
+        </a>
+      
         <div className="infoBanner" >
           <a className="smallGray" href="https://stripe.com/" target="_blank" >
             Payments secured with 

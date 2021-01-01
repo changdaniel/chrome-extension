@@ -1,0 +1,36 @@
+name: publish extension
+
+on:
+
+  push:
+    branches: [ sssss ]
+  pull_request:
+    branches: [ ssss ]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v2.1.4
+      - run: npm i
+        shell: bash
+      - run: CI=false REACT_APP_ENV=production npm run build
+        shell: bash
+      - run: cd ./build
+        shell: bash
+      - run: zip -r extension.zip .
+        shell: bash
+      - name: Chrome Extension upload & publish
+        uses: Passiverecords/chrome-extension-upload-action@1.4.1
+        with:
+          refresh-token: ${{ secrets.REFRESH_TOKEN }}
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ''
+          file-name: './extension.zip'
+          app-id: ${{ secrets.APP_ID }}
+          publish: true
+
+ 
