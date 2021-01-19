@@ -1,0 +1,43 @@
+name: publish extension
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v2.1.4
+      - run: node ./scripts/update_manifest_version.js
+        shell: bash
+      - name: update master manifest version
+        run : |
+          git config user.name foobar404
+          git config user.email austinthemichaud@gmail.com
+          git add .
+          git commit -m "update manifest version"
+          git push origin master
+      - name: build app
+        run: | 
+          npm i
+          CI=false REACT_APP_ENV=production npm run build
+      - name: zip app
+        run: | 
+          cd ./build
+          zip -r extension.zip .
+      - name: publish zip file
+        uses: trmcnvn/chrome-addon@v2
+        with:         
+          extension: ${{ secrets.APP_ID }}
+          zip: build/extension.zip
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ""
+          refresh-token: ${{ secrets.REFRESH_TOKEN }}
+
+ 
