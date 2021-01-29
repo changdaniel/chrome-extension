@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router';
 import {Link} from "react-router-dom"
-import {Layout,Button} from "../components"
+import {Layout,Button,Footer} from "../components"
 import {config,mix} from "../util"
 import styled from "styled-components"
 
@@ -25,6 +25,9 @@ export function Error() {
                     <Button primary>Go back</Button>
                 </Link>
             </Style>
+            <Footer slot="footer">
+                <p>Contact us : {config.email}</p>
+            </Footer>
         </Layout>
     )
 }

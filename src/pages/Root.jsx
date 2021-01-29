@@ -20,7 +20,7 @@ const Style = styled.main`
     }
 
     a,p{
-        color:${themeGet("colors.grey.8")};
+        color:${themeGet("colors.grey.17")};
     }
 `
 

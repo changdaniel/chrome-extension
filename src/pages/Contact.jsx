@@ -1,5 +1,5 @@
 import React from 'react'
-import {Layout} from "../components"
+import {Layout,Footer} from "../components"
 import styled from "styled-components"
 import {config,mix} from "../util"
 
@@ -15,6 +15,9 @@ export function Contact() {
             <Style>
                 <h5>Contact us at {config.email}</h5>
             </Style>
+            <Footer slot="footer">
+                <p>Contact us : {config.email}</p>
+            </Footer>
         </Layout>
     )
 }

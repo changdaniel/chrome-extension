@@ -1,8 +1,8 @@
 import React from 'react'
-import {Layout,Button} from "../components"
+import {Layout,Button,Footer} from "../components"
 import {Link} from "react-router-dom"
 import styled from "styled-components"
-import {mix} from "../util"
+import {mix,config} from "../util"
 
 
 const Style = styled.main`
@@ -21,6 +21,9 @@ export function CheckForgot() {
                     <Button primary>Okay</Button>
                 </Link>
             </Style>
+            <Footer slot="footer">
+                <p>Contact us : {config.email}</p>
+            </Footer>   
         </Layout>
     )
 }

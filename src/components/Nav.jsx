@@ -6,7 +6,7 @@ import styled from "styled-components"
 
 
 const Style = styled.nav`
-    ${mix.p("4")}
+    ${mix.p("5","4","4","4")}
     ${mix.row()}
 
     a,a img{
