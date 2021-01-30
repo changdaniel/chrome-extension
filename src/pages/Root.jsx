@@ -70,8 +70,14 @@ function useRootHook(){
     let axios = useAxios()
     const prepUrl = url => url ? url.split("//")[1].split("/")[0].replace("www.","") : ""
 
-    useEffect(getCurrentTabUrl,[])
-    useEffect(getPartners,[]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+      getCurrentTabUrl() 
+    },[]);
+
+    useEffect(()=>{
+      if(!url) return 
+      getPartners()
+    },[url])
 
     function getPartners(){
       if(!url) return
